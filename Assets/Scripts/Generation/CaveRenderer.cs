@@ -7,13 +7,16 @@ public class CaveRenderer : MonoBehaviour
     [SerializeField] private int width;
     [SerializeField] private int height;
     [SerializeField] private int depth;
-    [SerializeField][Range(0f, 1f)] private float fillPercent; 
+    [SerializeField][Range(0f, 1f)] private float fillPercent;
+
+    [SerializeField] private float threshold;
+    [SerializeField] private int smoothingIterations;
 
     private int size;
     private int remainingVertices;
 
     private GameObject[,,] cells;
-    private int[,,] points;
+    private float[,,] points;
 
     private List<Vector3> vertices = new();
     private List<int> triangles = new();
@@ -26,7 +29,7 @@ public class CaveRenderer : MonoBehaviour
     private void InitializeVertices()
     {
         cells = new GameObject[width, height, depth];
-        points = new int[width + 1, height + 1, depth + 1];
+        points = new float[width + 1, height + 1, depth + 1];
 
         size = width * height * depth;
         remainingVertices = size;
@@ -107,6 +110,8 @@ public class CaveRenderer : MonoBehaviour
     
     public void GenerateMesh()
     {
+        Smooth(smoothingIterations);
+
         vertices.Clear();
         triangles.Clear();
 
@@ -128,7 +133,7 @@ public class CaveRenderer : MonoBehaviour
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
 
-        mesh.RecalculateNormals();
+        //mesh.RecalculateNormals();
 
         GetComponent<MeshFilter>().mesh = mesh;
 
@@ -143,13 +148,13 @@ public class CaveRenderer : MonoBehaviour
         {
             Vector3Int corner = CubeLookup.EdgeVertices[i];
 
-            int voxel = points[
+            float voxel = points[
                     x + corner.x,
                     y + corner.y,
                     z + corner.z
                 ];
 
-            if (voxel == 1)
+            if (voxel >= threshold)
             {
                 config |= 1 << i;
             }
@@ -197,5 +202,67 @@ public class CaveRenderer : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void Smooth(int iterations)
+    {
+        float[,,] newPoints = points;
+
+        for (int i = 0; i < iterations; i++)
+        {
+            for (int x = 0; x < points.GetLength(0); x++)
+            {
+                for (int y = 0; y < points.GetLength(1); y++)
+                {
+                    for (int z = 0; z < points.GetLength(2); z++)
+                    {
+                        newPoints[x, y, z] = AverageNeighbors(Neighbors(x, y, z));
+                    }
+                }
+            }
+        }
+        points = newPoints;
+    }
+
+    private float[] Neighbors(int xpos, int ypos, int zpos)
+    {
+        float[] neighbors = new float[27];
+
+        int counter = 0;
+
+        for (int x = -1; x < 2; x++)
+        {
+            for (int y = -1; y < 2; y++)
+            {
+                for (int z = -1; z < 2; z++)
+                {
+                    if ((x == 0 && y == 0 && z == 0) ||
+                        xpos + x < 0 || xpos + x >= points.GetLength(0) ||
+                        ypos + y < 0 || ypos + y >= points.GetLength(1) ||
+                        zpos + z < 0 || zpos + z >= points.GetLength(2))
+                    {
+                        counter++;
+                        continue;
+                    }
+
+                    neighbors[counter] = points[xpos + x, ypos + y, zpos + z];
+                    counter++;
+                }
+            }
+        }
+
+        return neighbors;
+    }
+
+    private float AverageNeighbors(float[] neighbors)
+    {
+        float sum = 0f;
+
+        for (int i = 0; i < neighbors.Length; i++)
+        {
+            sum += neighbors[i];
+        }
+
+        return sum / (float)neighbors.Length;
     }
 }

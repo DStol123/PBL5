@@ -29,6 +29,8 @@ public class RandomWalker : MonoBehaviour
 
         rng = new System.Random(seed.GetHashCode());
 
+        RandomDestination();
+
         RandomRadius();
     }
 
