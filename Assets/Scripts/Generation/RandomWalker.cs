@@ -8,6 +8,8 @@ public class RandomWalker : MonoBehaviour
     [SerializeField] private float minimumRadius;
     [SerializeField] private float maximumRadius;
 
+    [SerializeField] private float maximumTunnelLength;
+
     [SerializeField] private Vector3 negativeBounds;
     [SerializeField] private Vector3 positiveBounds;
 
@@ -47,7 +49,8 @@ public class RandomWalker : MonoBehaviour
 
             if (caveRenderer.Filled())
             {
-                caveRenderer.IncreaseVertexSizes();
+                caveRenderer.DestroyAllPrimitiveCubes();
+                caveRenderer.GenerateMesh();
                 Destroy(this.gameObject);
             }
         }
@@ -63,14 +66,17 @@ public class RandomWalker : MonoBehaviour
 
     private void RandomDestination()
     {
-        float newX = (float)(rng.NextDouble() * (positiveBounds.x - negativeBounds.x - 2 * sphereCollider.radius) + negativeBounds.x + sphereCollider.radius);
-        float newY = (float)(rng.NextDouble() * (positiveBounds.y - negativeBounds.y - 2 * sphereCollider.radius) + negativeBounds.y + sphereCollider.radius);
-        float newZ = (float)(rng.NextDouble() * (positiveBounds.z - negativeBounds.z - 2 * sphereCollider.radius) + negativeBounds.z + sphereCollider.radius);
+        float newX = transform.position.x + (float)(rng.NextDouble() * (2f * maximumTunnelLength) - maximumTunnelLength);
+        float newY = transform.position.y + (float)(rng.NextDouble() * (2f * maximumTunnelLength) - maximumTunnelLength);
+        float newZ = transform.position.z + (float)(rng.NextDouble() * (2f * maximumTunnelLength) - maximumTunnelLength);
+
         destination = new Vector3(
              newX,
              newY,
              newZ
             );
+
+        destination = BoundVector(destination, negativeBounds + Vector3.one * maximumRadius * 1.5f, positiveBounds - Vector3.one * maximumRadius * 1.5f);
     }
 
     private void MoveWalker()
