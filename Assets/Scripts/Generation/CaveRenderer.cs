@@ -47,12 +47,14 @@ public class CaveRenderer : MonoBehaviour
                     point.tag = "Cave Vertex";
                     point.transform.localScale = Vector3.one * 0.1f;
 
+                    //Destroy(point.GetComponent<MeshRenderer>());
+
                     Collider collider = point.GetComponent<Collider>();
 
                     collider.isTrigger = true;
 
                     cells[x, y, z] = point;
-                    points[x, y, z] = 1;
+                    points[x, y, z] = 1f;
                 }
             }
         }
@@ -110,12 +112,12 @@ public class CaveRenderer : MonoBehaviour
     
     public void GenerateMesh()
     {
+        SetVerticesToActiveObjects();
+
         Smooth(smoothingIterations);
 
         vertices.Clear();
-        triangles.Clear();
-
-        SetVerticesToActiveObjects();
+        triangles.Clear(); 
 
         for (int x = 0; x < width; x++)
         {
@@ -130,10 +132,12 @@ public class CaveRenderer : MonoBehaviour
 
         Mesh mesh = new Mesh();
 
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
 
-        //mesh.RecalculateNormals();
+        mesh.RecalculateNormals();
 
         GetComponent<MeshFilter>().mesh = mesh;
 
@@ -206,7 +210,9 @@ public class CaveRenderer : MonoBehaviour
 
     private void Smooth(int iterations)
     {
-        float[,,] newPoints = points;
+        if (iterations == 0) return;
+
+        float[,,] newPoints = new float[points.GetLength(0), points.GetLength(1), points.GetLength(2)];
 
         for (int i = 0; i < iterations; i++)
         {
@@ -254,6 +260,24 @@ public class CaveRenderer : MonoBehaviour
         return neighbors;
     }
 
+    public Vector3 LowestPoint()
+    {
+        for(int y = 0; y < points.GetLength(1); y++)
+        {
+            for(int x = 0; x < points.GetLength(0); x++)
+            {
+                for(int z = 0; z < points.GetLength(2); z++)
+                {
+                    if (points[x, y, z] == 0f)
+                    {
+                        return new Vector3((float)x, (float)y, (float)z);
+                    }
+                }
+            }
+        }
+        return new Vector3(width, height, depth);
+    }
+
     private float AverageNeighbors(float[] neighbors)
     {
         float sum = 0f;
@@ -264,5 +288,16 @@ public class CaveRenderer : MonoBehaviour
         }
 
         return sum / (float)neighbors.Length;
+    }
+
+    public GameObject[,,] Cells
+    {
+        get { return cells; }
+        set { cells = value; }
+    }
+
+    public float[,,] Points
+    {
+        get { return points; }
     }
 }

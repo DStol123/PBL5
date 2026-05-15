@@ -1,0 +1,81 @@
+using NUnit.Framework.Interfaces;
+using UnityEngine;
+
+public class GoalBehavior : MonoBehaviour
+{
+    [SerializeField] private bool reached;
+
+    [SerializeField] private float timeToReach;
+    [SerializeField] private float timeElapsed;
+    [SerializeField] private float timeAtStart;
+
+    [SerializeField] private bool active;
+
+    [SerializeField] private GoalBehavior returnGoal;
+
+    [SerializeField] private SphereCollider sphereCollider;
+
+    private void Start()
+    {
+        if (sphereCollider == null) return;
+
+        sphereCollider.isTrigger = true;
+    }
+
+    private void Update()
+    {
+        if (reached || !active) return;
+
+        timeElapsed = Time.time - timeAtStart;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player") || !active || reached) return;
+
+        reached = true;
+        timeToReach = timeElapsed;
+
+        if (returnGoal == null) return;
+
+        returnGoal.Active = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        Active = true;
+    }
+
+    public bool Active
+    {
+        get { return active; }
+        set { 
+            if(!active && value)
+            {
+                timeAtStart = Time.time;
+                reached = false;
+            }
+            active = value;
+        }
+    }
+
+    public bool Reached
+    {
+        get { return reached; }
+        set { reached = value; }
+    }
+
+    public SphereCollider SphereCollider
+    {
+        get { return sphereCollider; }
+        set { sphereCollider = value; }
+    }
+
+    public GoalBehavior ReturnGoal
+    {
+        get { return returnGoal; }
+        set { returnGoal = value; }
+    }
+}

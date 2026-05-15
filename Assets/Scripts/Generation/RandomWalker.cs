@@ -19,6 +19,10 @@ public class RandomWalker : MonoBehaviour
     [SerializeField] private CaveRenderer caveRenderer;
     [SerializeField] private Rigidbody rb;
 
+    private GoalBehavior startGoal;
+    private GoalBehavior endGoal;
+    [SerializeField] private Material goalMaterial;
+
     private Vector3 destination;
     private float targetRadius;
     private float radiusChangeRate;
@@ -32,6 +36,8 @@ public class RandomWalker : MonoBehaviour
         RandomDestination();
 
         RandomRadius();
+
+        InitializeReturnGoal();
     }
 
     private void Update()
@@ -53,10 +59,63 @@ public class RandomWalker : MonoBehaviour
             {
                 caveRenderer.DestroyAllPrimitiveCubes();
                 caveRenderer.GenerateMesh();
+
+                InitializeEndGoal();
+
                 Destroy(this.gameObject);
             }
         }
     }
+
+    private void InitializeReturnGoal()
+    {
+        GameObject startGoalObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        startGoalObject.name = "Return Goal";
+        startGoal = startGoalObject.AddComponent<GoalBehavior>();
+
+        startGoalObject.transform.position = transform.position + Vector3.up * 3.5f;
+        startGoalObject.transform.localScale = new Vector3(
+            50f,
+            8f,
+            50f
+            );
+
+        BoxCollider bc = startGoalObject.GetComponent<BoxCollider>();
+        bc.isTrigger = true;
+
+        MeshRenderer meshRenderer = startGoalObject.GetComponent<MeshRenderer>();
+        Destroy(meshRenderer);
+
+        startGoal.Active = false;
+        startGoal.Reached = false;
+    }
+
+    private void InitializeEndGoal()
+    {
+        if (endGoal != null) return;
+
+        GameObject endGoalObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        endGoalObject.name = "End Goal";
+        endGoalObject.transform.position = transform.position;
+        endGoal = endGoalObject.AddComponent<GoalBehavior>();
+
+        MeshRenderer meshRenderer = endGoalObject.GetComponent<MeshRenderer>();
+        meshRenderer.material = goalMaterial;
+
+        endGoal.SphereCollider = endGoalObject.GetComponent<SphereCollider>();
+
+        endGoalObject.transform.localScale = new Vector3(
+            sphereCollider.radius,
+            sphereCollider.radius,
+            sphereCollider.radius
+            ) * 2f;
+
+        endGoal.Active = false;
+        endGoal.Reached = false;
+
+        endGoal.ReturnGoal = startGoal;
+    }
+
     private Vector3 BoundVector(Vector3 input, Vector3 nBounds, Vector3 pBounds)
     {
         return new Vector3(
