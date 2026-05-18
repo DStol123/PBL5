@@ -78,10 +78,11 @@ public class MarchingCubeRenderer : MonoBehaviour
 
                 edgeIndex++;
             }
-
+            // /*
             triangles.Add(triangleIndices[0]);
             triangles.Add(triangleIndices[2]);
             triangles.Add(triangleIndices[1]);
+            // */
         }
     }
 
