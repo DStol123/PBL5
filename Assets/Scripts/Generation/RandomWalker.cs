@@ -16,7 +16,7 @@ public class RandomWalker : MonoBehaviour
     [SerializeField] private string seed;
     private System.Random rng;
 
-    [SerializeField] private CaveRenderer caveRenderer;
+    [SerializeField] private CaveData caveRenderer;
     [SerializeField] private Rigidbody rb;
 
     private GoalBehavior startGoal;

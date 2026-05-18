@@ -1059,6 +1059,7 @@ GameObject:
   - component: {fileID: 622502451}
   - component: {fileID: 622502450}
   - component: {fileID: 622502452}
+  - component: {fileID: 622502453}
   m_Layer: 0
   m_Name: Map Generation
   m_TagString: Untagged
@@ -1099,6 +1100,7 @@ MonoBehaviour:
   fillPercent: 0.827
   threshold: 0.75
   smoothingIterations: 2
+  mcRenderer: {fileID: 622502453}
 --- !u!23 &622502450
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1177,6 +1179,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &622502453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622502447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d42e2223523884bbacab028c1d907e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MarchingCubeRenderer
+  caveData: {fileID: 622502449}
 --- !u!1 &657274601
 GameObject:
   m_ObjectHideFlags: 0
@@ -2018,14 +2033,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b692c5dc5830c9f49931214f5acaa6ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WalkerSphereCast
-  caveRenderer: {fileID: 622502449}
+  caveData: {fileID: 622502449}
   seed: Nicko
   maxSectionLength: 15
   currentRadius: 1.5
   minRadius: 1.5
   maxRadius: 3
   negativeBounds: {x: 0, y: 0, z: 0}
-  positiveBounds: {x: 48, y: 48, z: 48}
+  positiveBounds: {x: 49, y: 49, z: 49}
   goalMaterial: {fileID: 2100000, guid: feea19b5a1fdc09478bf869313613356, type: 2}
 --- !u!1 &1240430522
 GameObject:

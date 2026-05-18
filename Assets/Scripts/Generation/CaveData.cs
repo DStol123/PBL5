@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem.Android;
 
-public class CaveRenderer : MonoBehaviour
+public class CaveData : MonoBehaviour
 {
     [SerializeField] private int width;
     [SerializeField] private int height;
@@ -12,14 +12,14 @@ public class CaveRenderer : MonoBehaviour
     [SerializeField] private float threshold;
     [SerializeField] private int smoothingIterations;
 
+    [SerializeField] private MarchingCubeRenderer mcRenderer;
+
     private int size;
     private int remainingVertices;
 
     private GameObject[,,] cells;
     private float[,,] points;
 
-    private List<Vector3> vertices = new();
-    private List<int> triangles = new();
 
     private void Start()
     {
@@ -71,24 +71,6 @@ public class CaveRenderer : MonoBehaviour
         set {  remainingVertices = value; }
     }
 
-    public void IncreaseVertexSizes()
-    {
-        for(int x = 0; x < cells.GetLength(0); x++)
-        {
-            for(int y = 0; y < cells.GetLength(1); y++)
-            {
-                for(int z = 0; z < cells.GetLength(2); z++)
-                {
-                    GameObject point = cells[x, y, z];
-                    if (point == null) continue;
-
-                    point.transform.localScale = Vector3.one;
-                    point.GetComponent<Collider>().isTrigger = false;
-                }
-            }
-        }
-    }
-
     public void SetVerticesToActiveObjects()
     {
         for(int x = 0; x < cells.GetLength(0); x++)
@@ -116,82 +98,7 @@ public class CaveRenderer : MonoBehaviour
 
         Smooth(smoothingIterations);
 
-        vertices.Clear();
-        triangles.Clear(); 
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                for (int z = 0; z < depth; z++)
-                {
-                    MarchCube(x, y, z);
-                }
-            }
-        }
-
-        Mesh mesh = new Mesh();
-
-        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-
-        mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
-
-        mesh.RecalculateNormals();
-
-        GetComponent<MeshFilter>().mesh = mesh;
-
-        GetComponent<MeshCollider>().sharedMesh = mesh;
-    }
-
-    private void MarchCube(int x, int y, int z)
-    {
-        int config = 0;
-
-        for (int i = 0; i < 8; i++)
-        {
-            Vector3Int corner = CubeLookup.EdgeVertices[i];
-
-            float voxel = points[
-                    x + corner.x,
-                    y + corner.y,
-                    z + corner.z
-                ];
-
-            if (voxel >= threshold)
-            {
-                config |= 1 << i;
-            }
-        }
-
-        if (config == 0 || config == 255) return;
-
-        CreateTriangles(config, x, y, z);
-    }
-
-    private void CreateTriangles(int config, int x, int y, int z)
-    {
-        int[] edgeIndices = CubeLookup.TriangleConnectionTable[config];
-
-        for (int i = 0; i < edgeIndices.Length; i += 3)
-        {
-            if (edgeIndices[i] == -1) break;
-
-            int vertIndex = vertices.Count;
-
-            for (int t = 0; t < 3; t++)
-            {
-                int edge = edgeIndices[i + t];
-
-                Vector3 vertex = new Vector3(x, y, z) + CubeLookup.marchVertices[edge];
-
-                vertices.Add(vertex);
-            }
-
-            triangles.Add(vertIndex);
-            triangles.Add(vertIndex + 1);
-            triangles.Add(vertIndex + 2);
-        }
+        mcRenderer.MarchCubes();
     }
 
     public void DestroyAllPrimitiveCubes()
@@ -299,5 +206,11 @@ public class CaveRenderer : MonoBehaviour
     public float[,,] Points
     {
         get { return points; }
+        set { points = value; }
+    }
+
+    public float Threshold
+    {
+        get { return threshold; } 
     }
 }

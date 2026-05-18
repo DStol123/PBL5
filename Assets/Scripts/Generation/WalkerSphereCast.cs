@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class WalkerSphereCast : MonoBehaviour
 {
-    [SerializeField] private CaveRenderer caveRenderer;
+    [SerializeField] private CaveData caveData;
     [SerializeField] private string seed;
 
     [SerializeField] private float maxSectionLength;
@@ -47,14 +47,14 @@ public class WalkerSphereCast : MonoBehaviour
 
         for(int i = 0; i < verticesToClear.Length; i++)
         {
-            caveRenderer.RemainingVertices--;
+            caveData.RemainingVertices--;
             
             Destroy(verticesToClear[i]);
         }
 
         Debug.Log("Destroyed: " + verticesToClear.Length + " vertices");
 
-        if(caveRenderer.Filled())
+        if(caveData.Filled())
         {
             Finish();
         }
@@ -62,9 +62,9 @@ public class WalkerSphereCast : MonoBehaviour
 
     private void Finish()
     {
-        caveRenderer.GenerateMesh();
+        caveData.GenerateMesh();
 
-        caveRenderer.DestroyAllPrimitiveCubes();
+        caveData.DestroyAllPrimitiveCubes();
 
         InitializeEndGoal();
 
@@ -159,7 +159,7 @@ public class WalkerSphereCast : MonoBehaviour
 
         GameObject endGoalObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         endGoalObject.name = "End Goal";
-        endGoalObject.transform.position = caveRenderer.LowestPoint();
+        endGoalObject.transform.position = caveData.LowestPoint();
         endGoal = endGoalObject.AddComponent<GoalBehavior>();
 
         MeshRenderer meshRenderer = endGoalObject.GetComponent<MeshRenderer>();
