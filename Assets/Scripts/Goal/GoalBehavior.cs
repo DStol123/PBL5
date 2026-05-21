@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GoalBehavior : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private bool reached;
 
     [SerializeField] private float timeToReach;
@@ -36,8 +37,15 @@ public class GoalBehavior : MonoBehaviour
         reached = true;
         timeToReach = timeElapsed;
 
-        if (returnGoal == null) return;
+        if (returnGoal == null)
+        {
+            gameManager.TimeToReturn = timeToReach;
 
+            gameManager.WriteResults();
+            return;
+        }
+
+        gameManager.TimeToBottom = timeToReach;
         returnGoal.Active = true;
     }
 
@@ -77,5 +85,11 @@ public class GoalBehavior : MonoBehaviour
     {
         get { return returnGoal; }
         set { returnGoal = value; }
+    }
+
+    public GameManager GameManager
+    {
+        get { return gameManager; }
+        set { gameManager = value; }
     }
 }

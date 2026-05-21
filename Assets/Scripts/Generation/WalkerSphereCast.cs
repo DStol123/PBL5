@@ -6,6 +6,8 @@ public class WalkerSphereCast : MonoBehaviour
     [SerializeField] private CaveData caveData;
     [SerializeField] private string seed;
 
+    [SerializeField] private GameManager gameManager;
+
     [SerializeField] private float maxSectionLength;
 
     [SerializeField] private float currentRadius;
@@ -136,6 +138,8 @@ public class WalkerSphereCast : MonoBehaviour
         startGoalObject.name = "Return Goal";
         startGoal = startGoalObject.AddComponent<GoalBehavior>();
 
+        startGoal.GameManager = gameManager;
+
         startGoalObject.transform.position = transform.position + Vector3.up * 3.5f;
         startGoalObject.transform.localScale = new Vector3(
             50f,
@@ -161,6 +165,8 @@ public class WalkerSphereCast : MonoBehaviour
         endGoalObject.name = "End Goal";
         endGoalObject.transform.position = caveData.LowestPoint();
         endGoal = endGoalObject.AddComponent<GoalBehavior>();
+
+        endGoal.GameManager = gameManager;
 
         MeshRenderer meshRenderer = endGoalObject.GetComponent<MeshRenderer>();
         meshRenderer.material = goalMaterial;

@@ -355,6 +355,9 @@ MonoBehaviour:
   uiManager: {fileID: 175739688}
   paused: 0
   lookInversionMultiplier: -1
+  timeToBottom: 0
+  timeToReturn: 0
+  vrExperience: 0
 --- !u!4 &175739690
 Transform:
   m_ObjectHideFlags: 0
@@ -2035,6 +2038,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WalkerSphereCast
   caveData: {fileID: 622502449}
   seed: Nicko
+  gameManager: {fileID: 175739689}
   maxSectionLength: 15
   currentRadius: 1.5
   minRadius: 1.5

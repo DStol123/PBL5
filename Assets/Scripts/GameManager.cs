@@ -7,6 +7,18 @@ public class GameManager : MonoBehaviour
     private bool lookInverted;
     [SerializeField] private float lookInversionMultiplier;
 
+    [SerializeField] private float timeToBottom;
+    [SerializeField] private float timeToReturn;
+
+    [SerializeField] private int vrExperience;
+
+    private Recording recorder;
+
+    private void Start()
+    {
+        recorder = new Recording();
+    }
+
     public UIManager UIManager
     { get { return uiManager; } }
 
@@ -41,5 +53,23 @@ public class GameManager : MonoBehaviour
     public float LookInversionMultiplier
     {
         get { return lookInversionMultiplier; }
+    }
+
+    public void WriteResults()
+    {
+        
+        recorder.WriteTrialLog(vrExperience, timeToBottom, timeToReturn);
+    }
+
+    public float TimeToReturn
+    {
+        get { return timeToReturn; }
+        set { timeToReturn = value; }
+    }
+
+    public float TimeToBottom
+    {
+        get { return timeToBottom; }
+        set { timeToBottom = value; }
     }
 }

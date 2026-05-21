@@ -4,27 +4,29 @@ using System.IO;
 
 public class Recording : MonoBehaviour
 {
-    [SerializeField] private string filePath;
+    private string filePath = "trialLogs.csv";
 
     public void WriteTrialLog(int vrExperience, float timeToBottom, float timeToReturn)
     {
-        string contents = $"Date: {DateTime.Today}\nExperience in VR: {vrExperience}\nTime to end of cave: {timeToBottom.ToString("0.00")}\nTime to return: {timeToReturn.ToString("0.00")}";
+        if(!File.Exists(filePath))
+        {
+            File.Create(filePath).Close();
 
-        try
-        {
-            File.WriteAllText($"{DateTime.Now}.txt", contents);
+            StreamWriter writer = new StreamWriter(filePath, true);
+
+            string Columns = "Date,Time,VR Experience,Time to Bottom,Time to Return";
+
+            writer.WriteLine(Columns);
+
+            writer.Flush();
+            writer.Close();
         }
-        catch(UnauthorizedAccessException)
-        {
-            Debug.Log("Cannot write log file: Unauthorized Access");
-        }
-        catch (IOException ioEx)
-        {
-            Console.WriteLine($"I/O Error: {ioEx.Message}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Unexpected error: {ex.Message}");
-        }
+
+        StreamWriter sw = new StreamWriter(filePath, true);
+
+        sw.WriteLine($"{DateTime.Today},{DateTime.Now.TimeOfDay},{vrExperience},{timeToBottom},{timeToReturn}");
+
+        sw.Flush();
+        sw.Close();
     }
 }
