@@ -109,6 +109,10 @@ public class MarchingCubeRenderer : MonoBehaviour
         mesh.RecalculateNormals();
 
         meshFilter.mesh = mesh;
+
+        MeshCollider meshCollider = gameObject.AddComponent<MeshCollider>();
+
+        meshCollider.sharedMesh = meshFilter.mesh;
     }
 
     public CaveData CaveData

@@ -183,5 +183,7 @@ public class WalkerSphereCast : MonoBehaviour
         endGoal.Reached = false;
 
         endGoal.ReturnGoal = startGoal;
+
+        startGoal.EndGoal = endGoal;
     }
 }

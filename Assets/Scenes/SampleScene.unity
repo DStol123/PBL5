@@ -317,6 +317,7 @@ GameObject:
   - component: {fileID: 175739690}
   - component: {fileID: 175739688}
   - component: {fileID: 175739689}
+  - component: {fileID: 175739691}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -358,6 +359,7 @@ MonoBehaviour:
   timeToBottom: 0
   timeToReturn: 0
   vrExperience: 0
+  recorder: {fileID: 175739691}
 --- !u!4 &175739690
 Transform:
   m_ObjectHideFlags: 0
@@ -374,6 +376,18 @@ Transform:
   - {fileID: 195975498}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &175739691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175739687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9391044871bf8d4a8886429f24aeab2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Recording
 --- !u!1 &181958606
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,9 +1111,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f7e49fe690d4d045afcb12e49295bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CaveRenderer
-  width: 50
-  height: 50
-  depth: 50
+  width: 100
+  height: 100
+  depth: 100
   fillPercent: 0.827
   threshold: 0.75
   smoothingIterations: 2
@@ -1991,7 +2005,7 @@ Transform:
   m_GameObject: {fileID: 1201015062}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 48, y: 51, z: 48}
+  m_LocalPosition: {x: 48, y: 101, z: 48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2042,9 +2056,9 @@ MonoBehaviour:
   maxSectionLength: 15
   currentRadius: 1.5
   minRadius: 1.5
-  maxRadius: 3
+  maxRadius: 8
   negativeBounds: {x: 0, y: 0, z: 0}
-  positiveBounds: {x: 49, y: 49, z: 49}
+  positiveBounds: {x: 99, y: 99, z: 99}
   goalMaterial: {fileID: 2100000, guid: feea19b5a1fdc09478bf869313613356, type: 2}
 --- !u!1 &1240430522
 GameObject:
@@ -3222,7 +3236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 538649684040522139, guid: 75fb339552302f34a8b3f855477597c2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 51
+      value: 102
       objectReference: {fileID: 0}
     - target: {fileID: 538649684040522139, guid: 75fb339552302f34a8b3f855477597c2, type: 3}
       propertyPath: m_LocalPosition.z

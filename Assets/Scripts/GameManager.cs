@@ -12,11 +12,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int vrExperience;
 
-    private Recording recorder;
+    [SerializeField] private Recording recorder;
 
     private void Start()
     {
-        recorder = new Recording();
+
     }
 
     public UIManager UIManager

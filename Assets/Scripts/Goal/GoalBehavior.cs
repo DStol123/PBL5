@@ -13,6 +13,7 @@ public class GoalBehavior : MonoBehaviour
     [SerializeField] private bool active;
 
     [SerializeField] private GoalBehavior returnGoal;
+    [SerializeField] private GoalBehavior endGoal;
 
     [SerializeField] private SphereCollider sphereCollider;
 
@@ -51,7 +52,9 @@ public class GoalBehavior : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Player") || returnGoal != null) return;
+
+        endGoal.Active = true;
 
         Active = true;
     }
@@ -91,5 +94,11 @@ public class GoalBehavior : MonoBehaviour
     {
         get { return gameManager; }
         set { gameManager = value; }
+    }
+
+    public GoalBehavior EndGoal
+    {
+        get { return endGoal; }
+        set { endGoal = value; }
     }
 }
