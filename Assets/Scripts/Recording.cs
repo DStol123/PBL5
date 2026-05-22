@@ -24,7 +24,7 @@ public class Recording : MonoBehaviour
 
         StreamWriter sw = new StreamWriter(filePath, true);
 
-        sw.WriteLine($"{DateTime.Today},{DateTime.Now.TimeOfDay},{vrExperience},{timeToBottom},{timeToReturn}");
+        sw.WriteLine($"{DateTime.Today.ToString("yyyy-MM-dd")},{DateTime.Now.TimeOfDay},{vrExperience},{timeToBottom},{timeToReturn}");
 
         sw.Flush();
         sw.Close();
