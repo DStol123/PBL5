@@ -6,7 +6,7 @@ public class Recording : MonoBehaviour
 {
     private string filePath = "trialLogs.csv";
 
-    public void WriteTrialLog(int vrExperience, float timeToBottom, float timeToReturn)
+    public void WriteTrialLog(int vrExperience, float timeToBottom, float timeToReturn, bool nauseous, float nauseaTime)
     {
         if(!File.Exists(filePath))
         {
@@ -14,7 +14,7 @@ public class Recording : MonoBehaviour
 
             StreamWriter writer = new StreamWriter(filePath, true);
 
-            string Columns = "Date,Time,VR Experience,Time to Bottom,Time to Return";
+            string Columns = "Date,Time,VR Experience,Time to Bottom,Time to Return,Time to Become Nauseous";
 
             writer.WriteLine(Columns);
 
@@ -24,7 +24,7 @@ public class Recording : MonoBehaviour
 
         StreamWriter sw = new StreamWriter(filePath, true);
 
-        sw.WriteLine($"{DateTime.Today.ToString("yyyy-MM-dd")},{DateTime.Now.TimeOfDay},{vrExperience},{timeToBottom},{timeToReturn}");
+        sw.WriteLine($"{DateTime.Today.ToString("yyyy-MM-dd")},{DateTime.Now.TimeOfDay},{vrExperience},{timeToBottom.ToString("0.00")},{timeToReturn.ToString("0.00")},{nauseaTime.ToString("0.00")}");
 
         sw.Flush();
         sw.Close();

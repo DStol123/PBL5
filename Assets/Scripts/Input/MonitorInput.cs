@@ -7,7 +7,7 @@ public class MonitorInput : MonoBehaviour
      */
     [SerializeField] private GameManager gameManager;
     [SerializeField] private CameraMovement cameraMovement;
-    [SerializeField] private bool inUse;
+    [SerializeField] public bool inUse;
     [SerializeField] private float translationAcceleration;
 
     private Vector3 translationInput;
@@ -76,7 +76,7 @@ public class MonitorInput : MonoBehaviour
         cameraMovement.AngularVelocity = rotationInput;
     }
 
-    public bool Enabled
+    public bool InUse
     {
         get { return inUse; }
         set { inUse = value; }

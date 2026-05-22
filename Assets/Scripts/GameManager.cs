@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float timeToBottom;
     [SerializeField] private float timeToReturn;
 
+    [SerializeField] private float emitterDensity;
+
     [SerializeField] private int vrExperience;
 
     [SerializeField] private Recording recorder;
@@ -19,11 +21,16 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Image loadingBar;
 
+    private float timeAtLoad;
+
     public float caveFillPercent;
     public int caveWidth;
     public int caveHeight;
     public int caveDepth;
     public string caveSeed;
+    public float maxTunnelLength;
+    public float maxRadius;
+    public bool bubbleEmitters;
 
     public UIManager UIManager
     { get { return uiManager; } }
@@ -42,6 +49,23 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void NauseaCall()
+    {
+        if(timeToBottom == 0f)
+        {
+            timeToBottom = 9999f;
+            timeToReturn = 9999f;
+        }
+        else if(timeToReturn == 0f)
+        {
+            timeToReturn = 9999f;
+        }
+
+        recorder.WriteTrialLog(vrExperience, timeToBottom, timeToReturn, true, Time.time - timeAtLoad);
+
+        QuitGame();
     }
 
     public void GenerateCave()
@@ -84,7 +108,7 @@ public class GameManager : MonoBehaviour
     public void WriteResults()
     {
         
-        recorder.WriteTrialLog(vrExperience, timeToBottom, timeToReturn);
+        recorder.WriteTrialLog(vrExperience, timeToBottom, timeToReturn, false, 0f);
     }
 
     public float TimeToReturn
@@ -127,9 +151,38 @@ public class GameManager : MonoBehaviour
         set { caveSeed = value; }
     }
 
+    public string MaxLength
+    {
+        get { return maxTunnelLength.ToString(); }
+        set { maxTunnelLength = float.Parse(value); }
+    }
+
+    public string MaxRadius
+    {
+        get { return maxRadius.ToString(); }
+        set { maxRadius = float.Parse(value); }
+    }
+
     public float VRExperience
     {
         get { return (float)vrExperience; }
         set { vrExperience = Mathf.CeilToInt(value); }
+    }
+
+    public float TimeAtLoad
+    {
+        get { return timeAtLoad; }
+        set { timeAtLoad = value; }
+    }
+
+    public bool BubbleEmitters
+    {
+        get { return bubbleEmitters; }
+        set { bubbleEmitters = value; }
+    }
+
+    public float EmitterDensity
+    {
+        get { return emitterDensity; }
     }
 }

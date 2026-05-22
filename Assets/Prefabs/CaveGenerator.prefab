@@ -142,6 +142,10 @@ MonoBehaviour:
   threshold: 0.75
   smoothingIterations: 2
   mcRenderer: {fileID: 822377486917776280}
+  gameManager: {fileID: 0}
+  rw: {fileID: 7103008344025576280}
+  bubbleEmitter: {fileID: 3697688200292530867, guid: a6a293ef6f93d8b4487af9e24ea1b423, type: 3}
+  LoadingBar: {fileID: 0}
 --- !u!33 &5704792654490895243
 MeshFilter:
   m_ObjectHideFlags: 0

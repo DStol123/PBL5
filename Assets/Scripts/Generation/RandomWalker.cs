@@ -22,7 +22,7 @@ public class RandomWalker : MonoBehaviour
     private GoalBehavior endGoal;
     [SerializeField] private Material goalMaterial;
 
-    private System.Random rng;
+    public System.Random rng;
     private Vector3 destination;
 
     private float previousRadius;

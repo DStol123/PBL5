@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TMP_InputField caveFillText;
     [SerializeField] private Slider caveFillSlider;
+    [SerializeField] private TMP_Text goalText;
 
     private void Start()
     {
@@ -111,5 +112,11 @@ public class UIManager : MonoBehaviour
     {
         get { return caveFillSlider; }
         set { caveFillSlider = value; }
+    }
+
+    public TMP_Text GoalText
+    {
+        get { return goalText; }
+        set { goalText = value; }
     }
 }

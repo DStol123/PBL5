@@ -15,6 +15,9 @@ public class CaveData : MonoBehaviour
 
     [SerializeField] private MarchingCubeRenderer mcRenderer;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private RandomWalker rw;
+
+    [SerializeField] private GameObject bubbleEmitter;
 
     public Image LoadingBar;
 
@@ -56,6 +59,27 @@ public class CaveData : MonoBehaviour
         initialized = true;
     }
 
+    private void PlaceBubbleEmitters()
+    {
+        if (!gameManager.BubbleEmitters) return;
+
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < height; y++)
+            {
+                for(int z = 0; z < depth; z++)
+                {
+                    if (!OnFloor(x, y, z)) continue;
+                    
+                    if(rw.rng.NextDouble() <= gameManager.EmitterDensity)
+                    {
+                        Instantiate(bubbleEmitter).transform.position = new Vector3(x, y, z);
+                    }
+                }
+            }
+        }
+    }
+
     public bool Filled()
     {
         return (float)remainingVertices / (float)size <= fillPercent;
@@ -74,11 +98,14 @@ public class CaveData : MonoBehaviour
 
         mcRenderer.MarchCubes();
 
+        PlaceBubbleEmitters();
+
         float timeToLoad = Time.time - startTime;
 
         Debug.Log("Time to load cave: " + width + " x " + height + " x " + depth + ": " + timeToLoad.ToString("0.00") + " seconds");
 
         gameManager.UIManager.DisableMenu(3);
+        gameManager.UIManager.EnableMenu(4);
     }
 
     private void Smooth(int iterations)
@@ -111,7 +138,7 @@ public class CaveData : MonoBehaviour
 
         for (int x = -1; x < 2; x++)
         {
-            for (int y = -1; y < 2; y++)
+            for (int y = 1; y > -2; y--)
             {
                 for (int z = -1; z < 2; z++)
                 {
@@ -149,6 +176,23 @@ public class CaveData : MonoBehaviour
             }
         }
         return new Vector3(width, height, depth);
+    }
+
+    private bool OnFloor(int x, int y, int z)
+    {
+        if (y <= 0 || y >= height - 1)
+            return false;
+
+        if (points[x, y, z] >= threshold)
+            return false;
+
+        if (points[x, y - 1, z] < threshold)
+            return false;
+
+        if (points[x, y + 1, z] >= threshold)
+            return false;
+
+        return true;
     }
 
     private float AverageNeighbors(float[] neighbors)

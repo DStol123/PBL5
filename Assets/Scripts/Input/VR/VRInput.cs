@@ -4,9 +4,17 @@ public class VRInput : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
     [SerializeField] private CameraMovement cameraMovement;
+    [SerializeField] public bool inUse;
     
     void Update()
     {
+        if (!inUse) return;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            gameManager.UIManager.TogglePause(!gameManager.Paused);
+        }
+
         OVRInput.Update();
 
         TranslationInput();
@@ -45,5 +53,11 @@ public class VRInput : MonoBehaviour
             );
 
         cameraMovement.AngularVelocity = rotationInput;
+    }
+
+    public bool InUse
+    {
+        get { return inUse; }
+        set { inUse = value; }
     }
 }

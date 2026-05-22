@@ -43,8 +43,12 @@ public class GoalBehavior : MonoBehaviour
             gameManager.TimeToReturn = timeToReach;
 
             gameManager.WriteResults();
+
+            gameManager.UIManager.GoalText.text = "All Goals Complete.";
             return;
         }
+
+        gameManager.UIManager.GoalText.text = "Goal: Return to the Entrance of the Cave.";
 
         gameManager.TimeToBottom = timeToReach;
         returnGoal.Active = true;
@@ -53,6 +57,8 @@ public class GoalBehavior : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Player") || returnGoal != null) return;
+
+        gameManager.UIManager.GoalText.text = "Goal: Reach Golden Sphere at the Bottom of the Cave.";
 
         endGoal.Active = true;
 
