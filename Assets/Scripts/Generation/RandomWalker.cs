@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
-public class WalkerSphereCast : MonoBehaviour
+public class RandomWalker : MonoBehaviour
 {
     [SerializeField] private CaveData caveData;
     [SerializeField] private string seed;
@@ -26,80 +27,96 @@ public class WalkerSphereCast : MonoBehaviour
 
     private float previousRadius;
 
-    private void Awake()
-    {
-        if (seed.Equals("")) seed = UnityEngine.Random.Range(float.MinValue, float.MaxValue).ToString();
-
-        rng = new System.Random(seed.GetHashCode());
-    }
-
-    private void Start()
-    {
-        InitializeReturnGoal();
-    }
+    private bool initialized;
 
     private void Update()
     {
-        ClearPath();
+        if (!initialized) return;
+
+        ClearPathPureMath();
     }
 
-    private void ClearPath()
+    public void Initialize()
     {
-        GameObject[] verticesToClear = SphereCastCollection();
+        if (initialized) return;
 
-        for(int i = 0; i < verticesToClear.Length; i++)
-        {
-            caveData.RemainingVertices--;
-            
-            Destroy(verticesToClear[i]);
-        }
+        if (seed.Equals("")) seed = UnityEngine.Random.Range(float.MinValue, float.MaxValue).ToString();
 
-        Debug.Log("Destroyed: " + verticesToClear.Length + " vertices");
+        rng = new System.Random(seed.GetHashCode());
 
-        if(caveData.Filled())
-        {
-            Finish();
-        }
+        transform.position = new Vector3(caveData.Dimensions.x / 2f, caveData.Dimensions.y + 2f, caveData.Dimensions.z / 2f);
+
+        negativeBounds = Vector3.zero;
+        positiveBounds = caveData.Dimensions;
+
+        InitializeReturnGoal();
+
+        initialized = true;
     }
 
     private void Finish()
     {
         caveData.GenerateMesh();
 
-        caveData.DestroyAllPrimitiveCubes();
-
         InitializeEndGoal();
 
         Destroy(this.gameObject);
     }
 
-    private GameObject[] SphereCastCollection()
+    private void ClearPathPureMath()
     {
         currentRadius = RandomRadius();
 
         destination = RandomDestination();
 
-        float distance = (destination - transform.position).magnitude;
-
         Vector3 direction = (destination - transform.position).normalized;
 
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position + direction * (previousRadius == 0f ? 0f : (currentRadius - previousRadius)), currentRadius, direction, distance);
+        if (previousRadius != 0f)
+        {
+            transform.position += direction * (currentRadius - previousRadius);
+        }
+
+        int removedPoints = 0;
+
+        for(int x = 0; x < caveData.Points.GetLength(0); x++)
+        {
+            for(int y = 0; y < caveData.Points.GetLength(1); y++)
+            {
+                for(int z = 0; z < caveData.Points.GetLength(2); z++)
+                {
+                    if(Captured(new Vector3(x, y, z)))
+                    {
+                        caveData.Points[x, y, z] = 0f;
+                        caveData.RemainingVertices--;
+
+                        removedPoints++;
+                    }
+                }
+            }
+        }
 
         transform.position = destination;
 
         previousRadius = currentRadius;
 
-        List<GameObject> gos = new List<GameObject>();
+        Debug.Log("Cave Generation " + caveData.PercentComplete * 100f + "% Complete");
 
-        for(int i = 0; i < hits.Length; i++)
-        {
-            if (!hits[i].transform.gameObject.CompareTag("Cave Vertex")) continue;
-
-            gos.Add(hits[i].transform.gameObject);
-        }
-
-        return gos.ToArray();
+        if (caveData.Filled()) Finish();
     }
+
+    private bool Captured(Vector3 point)
+    {
+        Vector3 tunnelLine = destination - transform.position;
+
+        Vector3 lineToPoint = point - transform.position;
+
+        float distanceToPoint = lineToPoint.magnitude;
+
+        float angle = Vector3.Angle(tunnelLine, lineToPoint) * Mathf.Deg2Rad;
+
+        return (Mathf.Sin(angle) * distanceToPoint <= currentRadius) && (Mathf.Cos(angle) * distanceToPoint <= tunnelLine.magnitude) && Vector3.Dot(lineToPoint, tunnelLine) >= 0;
+    }
+
 
     private Vector3 RandomDestination()
     {
@@ -140,10 +157,10 @@ public class WalkerSphereCast : MonoBehaviour
 
         startGoal.GameManager = gameManager;
 
-        startGoalObject.transform.position = transform.position + Vector3.up * 3.5f;
+        startGoalObject.transform.position = transform.position + Vector3.up * 3f;
         startGoalObject.transform.localScale = new Vector3(
             50f,
-            8f,
+            15f,
             50f
             );
 
@@ -185,5 +202,17 @@ public class WalkerSphereCast : MonoBehaviour
         endGoal.ReturnGoal = startGoal;
 
         startGoal.EndGoal = endGoal;
+    }
+
+    public string Seed
+    {
+        get { return seed; }
+        set { seed = value; }
+    }
+
+    public GameManager GameManager
+    {
+        get { return gameManager; }
+        set { gameManager = value; }
     }
 }

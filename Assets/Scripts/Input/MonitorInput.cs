@@ -13,17 +13,30 @@ public class MonitorInput : MonoBehaviour
     private Vector3 translationInput;
     private Vector3 rotationInput;
 
+    private bool initialized;
+
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        
     }
     private void Update()
     {
-        if (!inUse) return;
+        Initialize();
+
+        if (!inUse || !initialized) return;
 
         ReadInput();
         ApplyInput();
+    }
+
+    private void Initialize()
+    {
+        if (initialized || !cameraMovement.initialized) return;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        initialized = true;
     }
 
     private void ReadInput()

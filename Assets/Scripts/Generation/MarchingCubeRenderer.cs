@@ -19,8 +19,6 @@ public class MarchingCubeRenderer : MonoBehaviour
         triangles = new List<int>();
 
         meshFilter = GetComponent<MeshFilter>();
-
-
     }
 
     public void MarchCubes()

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int vrExperience;
 
     [SerializeField] private Recording recorder;
+
+    [SerializeField] private GameObject caveGenerator;
+
+    [SerializeField] private Image loadingBar;
+
+    public float caveFillPercent;
+    public int caveWidth;
+    public int caveHeight;
+    public int caveDepth;
+    public string caveSeed;
 
     private void Start()
     {
@@ -38,6 +49,26 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void GenerateCave()
+    {
+        GameObject go = Instantiate(caveGenerator);
+
+        RandomWalker rw = go.GetComponentInChildren<RandomWalker>();
+
+        rw.GameManager = this;
+        rw.Seed = caveSeed;
+
+        CaveData cd = go.GetComponentInChildren<CaveData>();
+        cd.Dimensions = new Vector3(caveWidth, caveHeight, caveDepth);
+        cd.LoadingBar = loadingBar;
+        cd.GameManager = this;
+
+        cd.InitializeVertices();
+
+        rw.Initialize();
+
+        uiManager.EnableMenu(3);
+    }
     public bool LookInverted
     {
         get { return lookInverted; }
@@ -71,5 +102,33 @@ public class GameManager : MonoBehaviour
     {
         get { return timeToBottom; }
         set { timeToBottom = value; }
+    }
+
+    public string CaveFill
+    {
+        get { return caveFillPercent.ToString(); }
+        set { caveFillPercent = float.Parse(value); }
+    }
+
+    public string Width
+    {
+        get { return caveWidth.ToString(); }
+        set { caveWidth = int.Parse(value); }
+    }
+    public string Height
+    {
+        get { return caveHeight.ToString(); }
+        set { caveHeight = int.Parse(value); }
+    }
+    public string Depth
+    {
+        get { return caveDepth.ToString(); }
+        set { caveDepth = int.Parse(value); }
+    }
+
+    public string Seed
+    {
+        get { return caveSeed; }
+        set { caveSeed = value; }
     }
 }

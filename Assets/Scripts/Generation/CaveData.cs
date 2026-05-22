@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.InputSystem.Android;
 
@@ -13,22 +14,29 @@ public class CaveData : MonoBehaviour
     [SerializeField] private int smoothingIterations;
 
     [SerializeField] private MarchingCubeRenderer mcRenderer;
+    [SerializeField] private GameManager gameManager;
+
+    public Image LoadingBar;
+
+    private float startTime;
 
     private int size;
     private int remainingVertices;
 
-    private GameObject[,,] cells;
     private float[,,] points;
 
+    private bool initialized;
 
-    private void Start()
+    private void Update()
     {
-        InitializeVertices();
     }
 
-    private void InitializeVertices()
+    public void InitializeVertices()
     {
-        cells = new GameObject[width, height, depth];
+        if (initialized) return;
+
+        startTime = Time.time;
+
         points = new float[width + 1, height + 1, depth + 1];
 
         size = width * height * depth;
@@ -40,24 +48,12 @@ public class CaveData : MonoBehaviour
             {
                 for(int z = 0; z < depth; z++)
                 {
-                    //GameObject point = new GameObject("Cave Vertex: " + x + ", " + y + ", " + z);
-                    GameObject point = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    
-                    point.transform.position = new Vector3(x, y, z);
-                    point.tag = "Cave Vertex";
-                    point.transform.localScale = Vector3.one * 0.1f;
-
-                    //Destroy(point.GetComponent<MeshRenderer>());
-
-                    Collider collider = point.GetComponent<Collider>();
-
-                    collider.isTrigger = true;
-
-                    cells[x, y, z] = point;
                     points[x, y, z] = 1f;
                 }
             }
         }
+
+        initialized = true;
     }
 
     public bool Filled()
@@ -68,51 +64,21 @@ public class CaveData : MonoBehaviour
     public int RemainingVertices
     {
         get { return remainingVertices; }
-        set {  remainingVertices = value; }
-    }
-
-    public void SetVerticesToActiveObjects()
-    {
-        for(int x = 0; x < cells.GetLength(0); x++)
-        {
-            for(int y = 0;y < cells.GetLength(1); y++)
-            {
-                for(int z = 0;z < cells.GetLength(2); z++)
-                {
-                    if(cells[x, y, z] == null)
-                    {
-                        points[x, y, z] = 0;
-                        continue;
-                    }
-
-                    points[x, y, z] = 1;
-                }
-            }
-        }
+        set {  remainingVertices = value;}
     }
 
     
     public void GenerateMesh()
     {
-        SetVerticesToActiveObjects();
-
         Smooth(smoothingIterations);
 
         mcRenderer.MarchCubes();
-    }
 
-    public void DestroyAllPrimitiveCubes()
-    {
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                for (int z = 0; z < depth; z++)
-                {
-                    Destroy(cells[x, y, z]);
-                }
-            }
-        }
+        float timeToLoad = Time.time - startTime;
+
+        Debug.Log("Time to load cave: " + width + " x " + height + " x " + depth + ": " + timeToLoad.ToString("0.00") + " seconds");
+
+        gameManager.UIManager.DisableMenu(3);
     }
 
     private void Smooth(int iterations)
@@ -197,12 +163,6 @@ public class CaveData : MonoBehaviour
         return sum / (float)neighbors.Length;
     }
 
-    public GameObject[,,] Cells
-    {
-        get { return cells; }
-        set { cells = value; }
-    }
-
     public float[,,] Points
     {
         get { return points; }
@@ -212,5 +172,34 @@ public class CaveData : MonoBehaviour
     public float Threshold
     {
         get { return threshold; } 
+    }
+
+    public float PercentComplete
+    {
+        get {
+            float ratio = (float)remainingVertices / (float)size;
+
+            float value =  Mathf.Clamp01((1f - ratio) / (1f - fillPercent));
+
+            LoadingBar.fillAmount = value;
+
+            return value;
+        }
+    }
+
+    public Vector3 Dimensions
+    {
+        get { return new Vector3(width, height, depth); }
+        set { 
+            width = Mathf.CeilToInt(value.x);
+            height = Mathf.CeilToInt(value.y);
+            depth = Mathf.CeilToInt(value.z);
+        }
+    }
+
+    public GameManager GameManager
+    {
+        get { return gameManager; }
+        set { gameManager = value; }
     }
 }

@@ -6,7 +6,7 @@ public class CameraMovement : MonoBehaviour
      * This script is responsible for the physical movement of the camera within the scene.
      * Control and input is collected in a different script.
      */
-
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Vector3 acceleration;
     [SerializeField] private float maximumAcceleration;
@@ -16,13 +16,31 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private Vector3 angularVelocity;
     [SerializeField] private float breakingAcceleration;
 
+    [SerializeField] private CaveData caveData;
+
+    public bool initialized;
+
+    private void Start()
+    {
+        
+    }
+
     private void Update()
     {
+        if (!initialized) return;
+
         ApplyMovement();
         
         BreakOnNoInput();
 
         //Debug.Log("Current Speed: " + rb.linearVelocity.magnitude);
+    }
+
+    public void Intialize()
+    {
+        transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight + 2f, gameManager.caveDepth / 2f);
+
+        initialized = true;
     }
 
     private void ApplyMovement()

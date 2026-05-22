@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -6,9 +8,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject[] menus; //The first element is the pause menu
     [SerializeField] private GameObject artificialHorizon;
 
+    [SerializeField] private TMP_InputField caveFillText;
+    [SerializeField] private Slider caveFillSlider;
+
     private void Start()
     {
         ToggleAllMenus(false);
+        ToggleCursor(true);
+        EnableMenu(2);
     }
     public void TogglePause(bool input)
     {
@@ -18,16 +25,16 @@ public class UIManager : MonoBehaviour
         {
             EnableMenuExclusive(0);
 
-            Cursor.lockState = CursorLockMode.None;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
         }
         else
         {
             ToggleAllMenus(false);
 
-            Cursor.lockState = CursorLockMode.Locked;
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         }
 
-        Cursor.visible = input;
+        UnityEngine.Cursor.visible = input;
     }
 
     public void EnableMenu(int index)
@@ -66,5 +73,43 @@ public class UIManager : MonoBehaviour
     public void ToggleArtificialHorizon()
     {
         artificialHorizon.SetActive(!artificialHorizon.activeSelf);
+    }
+
+    public void ChangeCaveFillText(float input)
+    {
+        caveFillText.text = input.ToString();
+    }
+
+    public void ChangeCaveFillSlider(string input)
+    {
+        float num = float.Parse(input);
+        caveFillSlider.value = Mathf.Clamp01(num);
+    }
+
+    public void ToggleCursor(bool input)
+    {
+        if(input)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    public TMP_InputField CaveFillText
+    {
+        get { return caveFillText; }
+        set { caveFillText = value; }
+    }
+
+    public Slider CaveFillSlider
+    {
+        get { return caveFillSlider; }
+        set { caveFillSlider = value; }
     }
 }
