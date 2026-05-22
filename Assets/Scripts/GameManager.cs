@@ -25,11 +25,6 @@ public class GameManager : MonoBehaviour
     public int caveDepth;
     public string caveSeed;
 
-    private void Start()
-    {
-
-    }
-
     public UIManager UIManager
     { get { return uiManager; } }
 
@@ -130,5 +125,11 @@ public class GameManager : MonoBehaviour
     {
         get { return caveSeed; }
         set { caveSeed = value; }
+    }
+
+    public float VRExperience
+    {
+        get { return (float)vrExperience; }
+        set { vrExperience = Mathf.CeilToInt(value); }
     }
 }
