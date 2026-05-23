@@ -76,6 +76,8 @@ public class GameManager : MonoBehaviour
 
         rw.GameManager = this;
         rw.Seed = caveSeed;
+        rw.MaxLength = maxTunnelLength;
+        rw.MaxRadius = maxRadius;
 
         CaveData cd = go.GetComponentInChildren<CaveData>();
         cd.Dimensions = new Vector3(caveWidth, caveHeight, caveDepth);

@@ -215,4 +215,16 @@ public class RandomWalker : MonoBehaviour
         get { return gameManager; }
         set { gameManager = value; }
     }
+
+    public float MaxRadius
+    {
+        get { return maxRadius; }
+        set { maxRadius = value; }
+    }
+
+    public float MaxLength
+    {
+        get { return maxSectionLength; }
+        set { maxSectionLength = value; }
+    }
 }
