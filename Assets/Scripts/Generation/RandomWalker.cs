@@ -66,11 +66,18 @@ public class RandomWalker : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    private void DownwardBias(float bias)
+    {
+        destination -= Vector3.up * bias;
+    }
+
     private void ClearPathPureMath()
     {
         currentRadius = RandomRadius();
 
         destination = RandomDestination();
+
+        /*
 
         Vector3 direction = (destination - transform.position).normalized;
 
@@ -78,9 +85,7 @@ public class RandomWalker : MonoBehaviour
         {
             transform.position += direction * (currentRadius - previousRadius);
         }
-
-        int removedPoints = 0;
-
+        */
         for(int x = 0; x < caveData.Points.GetLength(0); x++)
         {
             for(int y = 0; y < caveData.Points.GetLength(1); y++)
@@ -91,8 +96,6 @@ public class RandomWalker : MonoBehaviour
                     {
                         caveData.Points[x, y, z] = 0f;
                         caveData.RemainingVertices--;
-
-                        removedPoints++;
                     }
                 }
             }
@@ -132,6 +135,8 @@ public class RandomWalker : MonoBehaviour
              newY,
              newZ
             );
+
+        DownwardBias(0.3f);
 
         destination = BoundVector(destination, negativeBounds + Vector3.one * maxRadius * 2f, positiveBounds - Vector3.one * maxRadius * 2f);
 
@@ -229,6 +234,12 @@ public class RandomWalker : MonoBehaviour
     {
         get { return maxRadius; }
         set { maxRadius = value; }
+    }
+
+    public float MinRadius
+    {
+        get { return minRadius; }
+        set { minRadius = value; }
     }
 
     public float MaxLength

@@ -49,7 +49,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   maxSectionLength: 15
   currentRadius: 1.5
-  minRadius: 1.5
+  minRadius: 1.8
   maxRadius: 8
   negativeBounds: {x: 0, y: 0, z: 0}
   positiveBounds: {x: 99, y: 99, z: 99}

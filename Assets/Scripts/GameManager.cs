@@ -1,3 +1,4 @@
+using Unity.Hierarchy;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
     public string caveSeed;
     public float maxTunnelLength;
     public float maxRadius;
+    public float minRadius;
     public bool bubbleEmitters;
 
     public UIManager UIManager
@@ -78,6 +80,7 @@ public class GameManager : MonoBehaviour
         rw.Seed = caveSeed;
         rw.MaxLength = maxTunnelLength;
         rw.MaxRadius = maxRadius;
+        
 
         CaveData cd = go.GetComponentInChildren<CaveData>();
         cd.Dimensions = new Vector3(caveWidth, caveHeight, caveDepth);
@@ -163,6 +166,12 @@ public class GameManager : MonoBehaviour
     {
         get { return maxRadius.ToString(); }
         set { maxRadius = float.Parse(value); }
+    }
+
+    public string MinRadius
+    {
+        get { return minRadius.ToString(); }
+        set { minRadius = float.Parse(value); }
     }
 
     public float VRExperience

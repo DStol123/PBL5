@@ -58,7 +58,7 @@ public class GoalBehavior : MonoBehaviour
     {
         if (!other.CompareTag("Player") || returnGoal != null) return;
 
-        gameManager.UIManager.GoalText.text = "Goal: Reach Golden Sphere at the Bottom of the Cave.";
+        gameManager.UIManager.GoalText.text = "Goal: Touch the Golden Sphere at the Bottom of the Cave.";
 
         endGoal.Active = true;
 

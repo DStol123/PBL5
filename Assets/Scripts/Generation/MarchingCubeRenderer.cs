@@ -56,7 +56,11 @@ public class MarchingCubeRenderer : MonoBehaviour
 
         int[] triangleIndices = new int[3];
 
-        for(int t = 0; t < 5; t++)
+        bool border =
+                position.x == (float)(caveData.Points.GetLength(0) - 1) || position.x == 0f ||
+                position.z == (float)(caveData.Points.GetLength(2) - 1) || position.z == 0f;
+
+        for (int t = 0; t < 5; t++)
         {
             for(int v = 0; v < 3; v++)
             {
@@ -77,6 +81,15 @@ public class MarchingCubeRenderer : MonoBehaviour
                 edgeIndex++;
             }
             // /*
+            if(border)
+            {
+                triangles.Add(triangleIndices[0]);
+                triangles.Add(triangleIndices[1]);
+                triangles.Add(triangleIndices[2]);
+
+                continue;
+            }
+
             triangles.Add(triangleIndices[0]);
             triangles.Add(triangleIndices[2]);
             triangles.Add(triangleIndices[1]);
