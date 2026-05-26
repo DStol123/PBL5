@@ -54,6 +54,8 @@ MonoBehaviour:
   negativeBounds: {x: 0, y: 0, z: 0}
   positiveBounds: {x: 99, y: 99, z: 99}
   goalMaterial: {fileID: 2100000, guid: feea19b5a1fdc09478bf869313613356, type: 2}
+  enclosure: {fileID: 5063269697070675106, guid: 23f28615d9e0c584fad7642634232c30, type: 3}
+  waterPlane: {fileID: 4354126078663006814, guid: 112f7ed56982be14da6632133b57b130, type: 3}
 --- !u!1 &6833197049942015350
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,6 +22,9 @@ public class RandomWalker : MonoBehaviour
     private GoalBehavior endGoal;
     [SerializeField] private Material goalMaterial;
 
+    [SerializeField] private GameObject enclosure;
+    [SerializeField] private GameObject waterPlane;
+
     public System.Random rng;
     private Vector3 destination;
 
@@ -151,6 +154,12 @@ public class RandomWalker : MonoBehaviour
 
     private void InitializeReturnGoal()
     {
+        GameObject en = Instantiate(enclosure);
+        en.transform.position = transform.position - Vector3.up * 2f;
+
+        GameObject wp = Instantiate(waterPlane);
+        wp.transform.position = transform.position - Vector3.up;
+
         GameObject startGoalObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
         startGoalObject.name = "Return Goal";
         startGoal = startGoalObject.AddComponent<GoalBehavior>();
