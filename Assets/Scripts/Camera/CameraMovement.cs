@@ -15,14 +15,17 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private Vector3 rotationStrength;
     [SerializeField] private Vector3 angularVelocity;
     [SerializeField] private float breakingAcceleration;
+    [SerializeField] private float movementFovMultiplier;
 
     [SerializeField] private CaveData caveData;
 
     public bool initialized;
 
+    private FOVChanger fovChanger;
+
     private void Start()
     {
-        
+        fovChanger = GetComponentInChildren<FOVChanger>();
     }
 
     private void Update()
@@ -33,12 +36,14 @@ public class CameraMovement : MonoBehaviour
         
         BreakOnNoInput();
 
+        fovChanger.ChangeFOV(180f / (movementFovMultiplier * Mathf.Abs(rb.linearVelocity.magnitude) + 1f));
+
         //Debug.Log("Current Speed: " + rb.linearVelocity.magnitude);
     }
 
     public void Intialize()
     {
-        transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight + 2f, gameManager.caveDepth / 2f);
+        transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight + 1f, gameManager.caveDepth / 2f);
 
         initialized = true;
     }

@@ -4,8 +4,9 @@ public class VRInput : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
     [SerializeField] private CameraMovement cameraMovement;
+    [SerializeField] private MonitorInput monitorInput;
     [SerializeField] public bool inUse;
-    
+
     void Update()
     {
         if (!inUse) return;
@@ -15,10 +16,18 @@ public class VRInput : MonoBehaviour
             gameManager.UIManager.TogglePause(!gameManager.Paused);
         }
 
+        if (gameManager.Paused) return;
+
         OVRInput.Update();
 
         TranslationInput();
         RotationInput();
+
+        if (monitorInput.InUse)
+        {
+            monitorInput.ReadInput();
+            monitorInput.ApplyInput();
+        }
     }
 
     private void TranslationInput()

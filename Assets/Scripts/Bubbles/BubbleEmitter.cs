@@ -17,10 +17,13 @@ public class BubbleEmitter : MonoBehaviour
         Bubble bub = go.GetComponent<Bubble>();
 
         Vector3 randomVelocity = new Vector3(
-            Random.Range(-0.5f, 0.5f),
+            0f,
             Random.Range(1f, 2f),
-            Random.Range(-0.5f, 0.5f)
+            0f
             );
+
+        bub.XVel = Random.Range(0f, 1f);
+        bub.ZVel = Random.Range(0f, 1f);
 
         bub.RB.linearVelocity = randomVelocity;
 

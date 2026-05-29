@@ -39,7 +39,7 @@ public class MonitorInput : MonoBehaviour
         initialized = true;
     }
 
-    private void ReadInput()
+    public void ReadInput()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
@@ -70,7 +70,7 @@ public class MonitorInput : MonoBehaviour
             );
     }
 
-    private void ApplyInput()
+    public void ApplyInput()
     {
         cameraMovement.Acceleration = translationInput * translationAcceleration;
         cameraMovement.AngularVelocity = rotationInput;
