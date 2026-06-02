@@ -100,12 +100,12 @@ public class CeilingLight : MonoBehaviour
 
         for (int i = 0; i < lightCount; i++)
         {
+            covered = i * step;
             if(covered <= straightWidth)
             {
                 //Top segment
                 returnPoints[i] = start + new Vector2(step, 0f) * i;
 
-                covered += step;
                 continue;
             }
 
@@ -129,7 +129,6 @@ public class CeilingLight : MonoBehaviour
                 returnPoints[i] = origin + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * rectRadius;
 
                 currentSegmentIndex++;
-                covered += step;
 
                 remainder = covered > straightWidth + arcLength ? 0f : remainder;
                 continue;
@@ -153,7 +152,6 @@ public class CeilingLight : MonoBehaviour
                     returnPoints[i] = origin - Vector2.up * remainder;
 
                     currentSegmentIndex++;
-                    covered += step;
                     cornerCorrected = true;
                     continue;
                 }
@@ -163,7 +161,6 @@ public class CeilingLight : MonoBehaviour
                 returnPoints[i] = origin - Vector2.up * step * currentSegmentIndex - Vector2.up * remainder;
 
                 currentSegmentIndex++;
-                covered += step;
 
                 remainder = covered > straightWidth + arcLength + straightHeight ? 0f : remainder;
                 continue;
@@ -190,7 +187,6 @@ public class CeilingLight : MonoBehaviour
                 returnPoints[i] = origin - new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * rectRadius;
 
                 currentSegmentIndex++;
-                covered += step;
                 
                 remainder = covered > straightWidth + 2f * arcLength + straightHeight ? 0f : remainder;
                 continue;
@@ -214,14 +210,12 @@ public class CeilingLight : MonoBehaviour
                     returnPoints[i] = origin - Vector2.left * remainder;
                     cornerCorrected = true;
 
-                    covered += step;
                     currentSegmentIndex++;
                     continue;
                 }
 
                 returnPoints[i] = origin - Vector2.right * remainder - Vector2.right * step * currentSegmentIndex;
 
-                covered += step;
                 cornerPlaced = false;
                 cornerCorrected = true;
                 currentSegmentIndex++;
@@ -249,7 +243,6 @@ public class CeilingLight : MonoBehaviour
                 float angle = 3f * Mathf.PI / 2f - numerator / rectRadius;
 
                 returnPoints[i] = origin + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * rectRadius;
-                covered += step;
                 remainder = covered > straightWidth * 2f + arcLength * 3f + straightHeight ? 0f : remainder;
                 currentSegmentIndex++;
                 continue;
@@ -275,12 +268,10 @@ public class CeilingLight : MonoBehaviour
 
                     currentSegmentIndex++;
                     cornerCorrected = true;
-                    covered += step;
                     continue;
                 }
 
                 returnPoints[i] = origin + Vector2.up * remainder + Vector2.up * step * currentSegmentIndex;
-                covered += step;
 
                 remainder = covered > 2f * straightWidth + 3f * arcLength + 2f * straightHeight ? 0f : remainder;
                 currentSegmentIndex++;
@@ -305,7 +296,6 @@ public class CeilingLight : MonoBehaviour
 
                 returnPoints[i] = origin + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * rectRadius;
                 currentSegmentIndex++;
-                covered += step;
                 continue;
             }
         }
