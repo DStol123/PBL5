@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour
         rw.Initialize();
 
         uiManager.EnableMenu(3);
+        uiManager.EnableMenu(5);
     }
     public bool LookInverted
     {
