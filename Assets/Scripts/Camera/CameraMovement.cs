@@ -41,7 +41,7 @@ public class CameraMovement : MonoBehaviour
         //Debug.Log("Current Speed: " + rb.linearVelocity.magnitude);
     }
 
-    public void Intialize()
+    public void Initialize()
     {
         transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight + 1f, gameManager.caveDepth / 2f);
 

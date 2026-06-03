@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
         {
             ToggleAllMenus(false);
             EnableMenu(4);
+            EnableMenu(5);
 
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         }

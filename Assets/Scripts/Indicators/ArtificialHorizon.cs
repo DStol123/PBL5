@@ -3,6 +3,7 @@ using UnityEngine;
 public class ArtificialHorizon : MonoBehaviour
 {
     [SerializeField] private GameObject player;
+    [SerializeField] private Camera cam;
 
     private void Update()
     {
@@ -17,7 +18,7 @@ public class ArtificialHorizon : MonoBehaviour
 
     private void TranslateHorizon()
     {
-        transform.position = Camera.main.WorldToScreenPoint(HorizonWorldCoordinate());
+        transform.position = cam.WorldToScreenPoint(HorizonWorldCoordinate());
         transform.position = new Vector3
             (
                 transform.position.x,

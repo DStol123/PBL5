@@ -45,7 +45,7 @@ public class CeilingLight : MonoBehaviour
 
         Vector2[] positions = PointsOnRoundedRectangle();
 
-        Vector3 center = lightAnchor.transform.position;
+        Vector3 center = lightAnchor.transform.localPosition;
 
         points = new GameObject[lightCount];
         images = new Image[lightCount];
@@ -70,8 +70,8 @@ public class CeilingLight : MonoBehaviour
 
             attachedImage.sprite = pointSprite;
 
-            imageObject.transform.position = center + new Vector3(positions[i].x, positions[i].y, 0f);
-            invisibleObjects[i].transform.position = center + new Vector3(positions[i].x, positions[i].y, 0f);
+            imageObject.transform.localPosition = center + new Vector3(positions[i].x, positions[i].y, 0f);
+            invisibleObjects[i].transform.localPosition = center + new Vector3(positions[i].x, positions[i].y, 0f);
         }
     }
 

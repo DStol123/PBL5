@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Image loadingBar;
 
+    [SerializeField] private CameraMovement cameraMovement;
+
     private float timeAtLoad;
 
     public float caveFillPercent;
@@ -70,6 +72,7 @@ public class GameManager : MonoBehaviour
         QuitGame();
     }
 
+    [ContextMenu("Generate Cave")]
     public void GenerateCave()
     {
         GameObject go = Instantiate(caveGenerator);
@@ -93,6 +96,8 @@ public class GameManager : MonoBehaviour
 
         uiManager.EnableMenu(3);
         uiManager.EnableMenu(5);
+
+        cameraMovement.Initialize();
     }
     public bool LookInverted
     {
