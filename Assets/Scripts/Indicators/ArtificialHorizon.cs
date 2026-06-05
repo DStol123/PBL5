@@ -23,16 +23,16 @@ public class ArtificialHorizon : MonoBehaviour
 
     private void TranslateHorizon()
     {
-        horizonRect.anchoredPosition = new Vector2(
-        0f,
-        VerticalCanvasPosition()
-    );
-    }
-
-    private float VerticalCanvasPosition()
-    {
         float pitch = Mathf.DeltaAngle(0f, player.transform.eulerAngles.x);
+        float roll = Mathf.DeltaAngle(0f, player.transform.eulerAngles.z);
 
-        return pitch * pixelsPerDegree;
+        float offset = pitch * pixelsPerDegree;
+
+        float rollRad = roll * Mathf.Deg2Rad;
+
+        horizonRect.anchoredPosition = new Vector2(
+            offset * Mathf.Sin(rollRad),
+            offset * Mathf.Cos(rollRad)
+        );
     }
 }

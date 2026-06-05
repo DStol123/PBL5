@@ -52,7 +52,7 @@ public class CameraMovement : MonoBehaviour
     {
         rb.AddRelativeForce(acceleration);
 
-        transform.Rotate(angularVelocity);
+        transform.Rotate(angularVelocity * Time.deltaTime);
 
 
         rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maximumSpeed);
