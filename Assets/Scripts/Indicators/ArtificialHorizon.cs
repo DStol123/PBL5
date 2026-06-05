@@ -5,7 +5,12 @@ public class ArtificialHorizon : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Camera cam;
 
-    private void Update()
+    [SerializeField] private RectTransform horzCanvas;
+    [SerializeField] private RectTransform horizonRect;
+
+    [SerializeField] private float pixelsPerDegree;
+
+    private void FixedUpdate()
     {
         TranslateHorizon();
         RotateHorizon();
@@ -13,33 +18,21 @@ public class ArtificialHorizon : MonoBehaviour
 
     private void RotateHorizon()
     {
-        transform.rotation = Quaternion.Euler(0f, 0f, -player.transform.rotation.eulerAngles.z);
+        transform.localRotation = Quaternion.Euler(0f, 0f, -player.transform.rotation.eulerAngles.z);
     }
 
     private void TranslateHorizon()
     {
-        transform.position = cam.WorldToScreenPoint(HorizonWorldCoordinate());
-        transform.position = new Vector3
-            (
-                transform.position.x,
-                transform.position.y,
-                0f
-            );
+        horizonRect.anchoredPosition = new Vector2(
+        0f,
+        VerticalCanvasPosition()
+    );
     }
 
-    private Vector3 HorizonWorldCoordinate()
+    private float VerticalCanvasPosition()
     {
-        Vector3 position = new Vector3
-            (
-                player.transform.forward.x,
-                0f,
-                player.transform.forward.z
-            );
+        float pitch = Mathf.DeltaAngle(0f, player.transform.eulerAngles.x);
 
-        if (position.magnitude <= Mathf.Epsilon) return new Vector3(0f, 0f, 99999f);
-
-        position = player.transform.position + position.normalized * 99999f;
-
-        return position;
+        return pitch * pixelsPerDegree;
     }
 }
