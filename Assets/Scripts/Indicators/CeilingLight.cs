@@ -320,7 +320,7 @@ public class CeilingLight : MonoBehaviour
 
         for (int i = 0; i < invisibleObjects.Length; i++)
         {
-            float height = userAvatar.transform.TransformPoint(invisibleObjects[i].transform.position).y;
+            float height = invisibleObjects[i].transform.position.y;
 
             float colorInput = (height - lowestPoint) * conversionFactor;
 
@@ -336,9 +336,9 @@ public class CeilingLight : MonoBehaviour
 
         for(int i = 0; i < points.Length; i++)
         {
-            if (userAvatar.transform.TransformPoint(invisibleObjects[i].transform.position).y > highest)
+            if (invisibleObjects[i].transform.position.y > highest)
             {
-                highest = userAvatar.transform.TransformPoint(invisibleObjects[i].transform.position).y;
+                highest = invisibleObjects[i].transform.position.y;
             }
         }
 
@@ -351,9 +351,9 @@ public class CeilingLight : MonoBehaviour
 
         for(int i = 0; i < invisibleObjects.Length; i++)
         {
-            if (userAvatar.transform.TransformPoint(invisibleObjects[i].transform.position).y < lowest)
+            if (invisibleObjects[i].transform.position.y < lowest)
             {
-                lowest = userAvatar.transform.TransformPoint(invisibleObjects[i].transform.position).y;
+                lowest = invisibleObjects[i].transform.position.y;
             }
         }
 

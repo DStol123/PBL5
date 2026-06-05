@@ -8,16 +8,19 @@ public class MonitorInput : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     [SerializeField] private CameraMovement cameraMovement;
     [SerializeField] public bool inUse;
+    [SerializeField] private bool mouseEnabled;
     [SerializeField] private float translationAcceleration;
+    [SerializeField] private GameObject goalIndicator;
 
     private Vector3 translationInput;
     private Vector3 rotationInput;
 
+    private bool pPressed;
     private bool initialized;
 
     private void Start()
     {
-        
+        pPressed = false;
     }
     private void Update()
     {
@@ -27,6 +30,18 @@ public class MonitorInput : MonoBehaviour
 
         ReadInput();
         ApplyInput();
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (pPressed) return;
+
+            Debug.Log("Setting goal text visibility: " + !goalIndicator.activeInHierarchy);
+            bool activeInHeirarchy = goalIndicator.activeInHierarchy;
+            goalIndicator.SetActive(!activeInHeirarchy);
+
+            pPressed = true;
+            Invoke("SetPPressed", 0.1f);
+        }
     }
 
     private void Initialize()
@@ -58,6 +73,8 @@ public class MonitorInput : MonoBehaviour
 
         //Debug.Log("Translation Input: " + translationInput);
 
+        if (!mouseEnabled) return;
+
         float rollInput = 0f;
         if (Input.GetKey(KeyCode.Q)) rollInput = 1f;
         else if (Input.GetKey(KeyCode.E)) rollInput = -1f;
@@ -68,6 +85,11 @@ public class MonitorInput : MonoBehaviour
             Input.GetAxis("Mouse X"),
             rollInput
             );
+    }
+
+    private void SetPPressed()
+    {
+        pPressed = false;
     }
 
     public void ApplyInput()

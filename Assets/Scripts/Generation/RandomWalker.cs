@@ -204,11 +204,7 @@ public class RandomWalker : MonoBehaviour
 
         endGoal.SphereCollider = endGoalObject.GetComponent<SphereCollider>();
 
-        endGoalObject.transform.localScale = new Vector3(
-            currentRadius,
-            currentRadius,
-            currentRadius
-            ) * 2f;
+        endGoalObject.transform.localScale = Vector3.one * 2f;
 
         endGoal.Active = false;
         endGoal.Reached = false;

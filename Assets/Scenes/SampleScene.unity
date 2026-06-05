@@ -1043,10 +1043,10 @@ MonoBehaviour:
   loadingBar: {fileID: 806405543}
   cameraMovement: {fileID: 407071090}
   caveFillPercent: 0.82
-  caveWidth: 125
-  caveHeight: 150
-  caveDepth: 125
-  caveSeed: Nickonicko
+  caveWidth: 100
+  caveHeight: 100
+  caveDepth: 100
+  caveSeed: chandler
   maxTunnelLength: 15
   maxRadius: 8
   minRadius: 0
@@ -1271,7 +1271,9 @@ MonoBehaviour:
   gameManager: {fileID: 175739689}
   cameraMovement: {fileID: 407071090}
   inUse: 1
+  mouseEnabled: 1
   translationAcceleration: 10
+  goalIndicator: {fileID: 896585450}
 --- !u!4 &195975498
 Transform:
   m_ObjectHideFlags: 0
@@ -2246,7 +2248,7 @@ GameObject:
   - component: {fileID: 407071093}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2314,7 +2316,7 @@ MonoBehaviour:
   maximumAngularAcceleration: {x: 100, y: 100, z: 50}
   rotationStrength: {x: 100, y: 100, z: 50}
   angularVelocity: {x: 0, y: 0, z: 0}
-  breakingAcceleration: 100
+  breakingAcceleration: 5
   movementFovMultiplier: 1
   caveData: {fileID: 0}
   initialized: 0
@@ -4460,7 +4462,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &896585451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4510,9 +4512,9 @@ Canvas:
   m_GameObject: {fileID: 896585450}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 561236923161067460}
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -9579,7 +9581,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -82.4}
+  m_AnchoredPosition: {x: 0, y: -153}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1866688001
@@ -11619,7 +11621,7 @@ GameObject:
   m_Component:
   - component: {fileID: 561236923159524150}
   m_Layer: 0
-  m_Name: ViveCameraRig (1)
+  m_Name: ViveCameraRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12140,11 +12142,11 @@ MonoBehaviour:
   rectWidth: 480
   rectHeight: 330
   rectRadius: 65
-  alpha: 0.596
+  alpha: 0.234
   lightCount: 180
   canvas: {fileID: 3632551319045864523}
   pointSprite: {fileID: 21300000, guid: 9873dc225ac88ac4686616e3fb279af7, type: 3}
-  userAvatar: {fileID: 407071087}
+  userAvatar: {fileID: 561236923159898868}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
