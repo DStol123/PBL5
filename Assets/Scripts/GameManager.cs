@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
         uiManager.EnableMenu(3);
         uiManager.EnableMenu(5);
 
+        cameraMovement.CaveData = cd;
         cameraMovement.Initialize();
     }
     public bool LookInverted

@@ -16,21 +16,32 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private Vector3 angularVelocity;
     [SerializeField] private float breakingAcceleration;
     [SerializeField] private float movementFovMultiplier;
+    [SerializeField] private GameObject vrCamera;
+    [SerializeField] private Transform cameraOffset;
+
+    private Quaternion headsetRotationAtCalibration;
+
+    [SerializeField] private FOVChanger fovChanger;
 
     [SerializeField] private CaveData caveData;
 
     public bool initialized;
 
-    private FOVChanger fovChanger;
-
     private void Start()
     {
+        if (fovChanger != null) return;
+
         fovChanger = GetComponentInChildren<FOVChanger>();
     }
 
     private void Update()
     {
         if (!initialized) return;
+
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            Calibrate();
+        }
 
         ApplyMovement();
         
@@ -46,6 +57,19 @@ public class CameraMovement : MonoBehaviour
         transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight + 1f, gameManager.caveDepth / 2f);
 
         initialized = true;
+    }
+
+    public void Calibrate()
+    {
+        Vector3 rotationDifference;
+
+        Vector3 previousRotation = transform.rotation.eulerAngles;
+
+        transform.rotation = vrCamera.transform.rotation;
+
+        rotationDifference = transform.rotation.eulerAngles - previousRotation;
+
+        cameraOffset.rotation = Quaternion.Euler(cameraOffset.rotation.eulerAngles - rotationDifference);
     }
 
     private void ApplyMovement()
@@ -92,5 +116,11 @@ public class CameraMovement : MonoBehaviour
     public float MaximumAcceleration
     {
         get { return maximumAcceleration; }
+    }
+
+    public CaveData CaveData
+    {
+        get { return caveData; }
+        set { caveData = value; }
     }
 }

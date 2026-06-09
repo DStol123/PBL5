@@ -21,29 +21,29 @@ public class GamepadInput : MonoBehaviour
     {
         Vector2 leftStickInput = Gamepad.current.leftStick.ReadValue();
 
-        float leftTriggerInput = Gamepad.current.leftTrigger.ReadValue();
-        float rightTriggerInput = Gamepad.current.rightTrigger.ReadValue();
-
-        float verticalInput = leftTriggerInput > 0f ? -leftTriggerInput :
-            rightTriggerInput > 0f ? rightTriggerInput : 0f;
-
-        moveInput = new Vector3(
-            leftStickInput.x,
-            leftStickInput.y,
-            verticalInput);
-
-        Vector2 rightStickInput = Gamepad.current.rightStick.ReadValue();
-
         float leftShoulderInput = Gamepad.current.leftShoulder.ReadValue();
         float rightShoulderInput = Gamepad.current.rightShoulder.ReadValue();
 
-        float rollInput = leftShoulderInput > 0f ? -leftShoulderInput :
+        float verticalInput = leftShoulderInput > 0f ? -leftShoulderInput :
             rightShoulderInput > 0f ? rightShoulderInput : 0f;
 
+        moveInput = new Vector3(
+            leftStickInput.x,
+            verticalInput,
+            leftStickInput.y);
+
+        Vector2 rightStickInput = Gamepad.current.rightStick.ReadValue();
+
+        float leftTriggerInput = Gamepad.current.leftTrigger.ReadValue();
+        float rightTriggerInput = Gamepad.current.rightTrigger.ReadValue();
+
+        float rollInput = leftTriggerInput > 0f ? -leftTriggerInput :
+            rightTriggerInput > 0f ? rightTriggerInput : 0f;
+
         lookInput = new Vector3(
-            rightStickInput.y,
+            -rightStickInput.y,
             rightStickInput.x,
-            rollInput
+            -rollInput
             );
     }
 
