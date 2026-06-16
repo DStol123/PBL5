@@ -1037,7 +1037,7 @@ MonoBehaviour:
   timeToBottom: 0
   timeToReturn: 0
   emitterDensity: 0.006
-  vrExperience: 0
+  vrExperience: 2
   recorder: {fileID: 175739691}
   caveGenerator: {fileID: 6833197049942015350, guid: c49bc62536f4fd74da4ecab08f548a67, type: 3}
   loadingBar: {fileID: 806405543}
@@ -1046,11 +1046,11 @@ MonoBehaviour:
   caveWidth: 100
   caveHeight: 100
   caveDepth: 100
-  caveSeed: rofl
-  maxTunnelLength: 15
+  caveSeed: beepboop
+  maxTunnelLength: 12
   maxRadius: 8
   minRadius: 0
-  bubbleEmitters: 1
+  bubbleEmitters: 0
 --- !u!4 &175739690
 Transform:
   m_ObjectHideFlags: 0
