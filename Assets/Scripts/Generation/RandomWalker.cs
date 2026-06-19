@@ -10,6 +10,7 @@ public class RandomWalker : MonoBehaviour
     [SerializeField] private GameManager gameManager;
 
     [SerializeField] private float maxSectionLength;
+    public float minSectionLength;
 
     [SerializeField] private float currentRadius;
     [SerializeField] private float minRadius;
@@ -28,6 +29,10 @@ public class RandomWalker : MonoBehaviour
     public System.Random rng;
     private Vector3 destination;
 
+    private NodePlacer nodePlacer;
+    private Node previousNode;
+    private Node nextNode;
+
     private float previousRadius;
 
     private bool initialized;
@@ -42,6 +47,8 @@ public class RandomWalker : MonoBehaviour
     public void Initialize()
     {
         if (initialized) return;
+
+        if (nodePlacer == null) nodePlacer = gameObject.AddComponent<NodePlacer>();
 
         if (seed.Equals("")) seed = UnityEngine.Random.Range(float.MinValue, float.MaxValue).ToString();
 
@@ -75,25 +82,53 @@ public class RandomWalker : MonoBehaviour
     {
         currentRadius = RandomRadius();
 
+        if (previousNode == null)
+        {
+            previousNode = nodePlacer.PlaceNode(transform.position);
+            previousNode.startingNode = true;
+        }
+
+        else
+        {
+            previousNode = nodePlacer.PlaceNode(transform.position, previousNode);
+        }
+
         destination = RandomDestination();
 
-        /*
+        nextNode = nodePlacer.PlaceNode(destination, previousNode);
 
-        Vector3 direction = (destination - transform.position).normalized;
+        HashSet<(Node, Node)> intersectedPairs = new();
 
-        if (previousRadius != 0f)
+        for (int x = 0; x < caveData.Points.GetLength(0); x++)
         {
-            transform.position += direction * (currentRadius - previousRadius);
-        }
-        */
-        for(int x = 0; x < caveData.Points.GetLength(0); x++)
-        {
-            for(int y = 0; y < caveData.Points.GetLength(1); y++)
+            for (int y = 0; y < caveData.Points.GetLength(1); y++)
             {
-                for(int z = 0; z < caveData.Points.GetLength(2); z++)
+                for (int z = 0; z < caveData.Points.GetLength(2); z++)
                 {
-                    if(Captured(new Vector3(x, y, z)))
+                    if (Captured(new Vector3(x, y, z)))
                     {
+                        caveData.AppendVoxelNodes(new Vector3(x, y, z), previousNode);
+                        caveData.AppendVoxelNodes(new Vector3(x, y, z), nextNode);
+
+                        if (caveData.Points[x, y, z] == 0f)
+                        {
+                            Node[] intersectedNodePair = { caveData.voxelNodes[new Vector3(x, y, z)][0],
+                                caveData.voxelNodes[new Vector3(x, y, z)][1] };
+
+                            if (!intersectedPairs.Contains((intersectedNodePair[0], intersectedNodePair[1])))
+                            {
+                                Node intersectionNode = nodePlacer.PlaceNode(new Vector3(x, y, z), intersectedNodePair);
+                                intersectionNode.AddNode(previousNode);
+                                intersectionNode.AddNode(nextNode);
+
+                                intersectedPairs.Add((intersectedNodePair[0], intersectedNodePair[1]));
+
+                                caveData.AppendVoxelNodes(new Vector3(x, y, z), intersectionNode);
+                            }
+
+                            continue;
+                        }
+
                         caveData.Points[x, y, z] = 0f;
                         caveData.RemainingVertices--;
                     }
@@ -102,6 +137,8 @@ public class RandomWalker : MonoBehaviour
         }
 
         transform.position = destination;
+
+        previousNode = nextNode;
 
         previousRadius = currentRadius;
 
@@ -126,17 +163,17 @@ public class RandomWalker : MonoBehaviour
 
     private Vector3 RandomDestination()
     {
-        float newX = transform.position.x + (float)(rng.NextDouble() * (2f * maxSectionLength) - maxSectionLength);
-        float newY = transform.position.y + (float)(rng.NextDouble() * (2f * maxSectionLength) - maxSectionLength);
-        float newZ = transform.position.z + (float)(rng.NextDouble() * (2f * maxSectionLength) - maxSectionLength);
+        float newX = transform.position.x + ((float)(rng.NextDouble() - 0.5f) * 2f * (maxSectionLength - minSectionLength));
+        float newY = transform.position.y + ((float)(rng.NextDouble() - 0.5f) * 2f * (maxSectionLength - minSectionLength));
+        float newZ = transform.position.z + ((float)(rng.NextDouble() - 0.5f) * 2f * (maxSectionLength - minSectionLength));
 
         destination = new Vector3(
-             newX,
-             newY,
-             newZ
+             newX + minSectionLength * Mathf.Abs(newX - transform.position.x) / (newX - transform.position.x),
+             newY + minSectionLength * Mathf.Abs(newY - transform.position.y) / (newY - transform.position.y),
+             newZ + minSectionLength * Mathf.Abs(newZ - transform.position.z) / (newZ - transform.position.z)
             );
 
-        DownwardBias(0.3f);
+        DownwardBias(0.15f);
 
         destination = BoundVector(destination, negativeBounds + Vector3.one * maxRadius * 2f, positiveBounds - Vector3.one * maxRadius * 2f);
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,8 @@ public class CaveData : MonoBehaviour
     [SerializeField] private RandomWalker rw;
 
     [SerializeField] private GameObject bubbleEmitter;
+
+    public Dictionary<Vector3, List<Node>> voxelNodes;
 
     public Image LoadingBar;
 
@@ -36,6 +39,8 @@ public class CaveData : MonoBehaviour
     {
         if (initialized) return;
 
+        voxelNodes = new Dictionary<Vector3, List<Node>>();
+
         startTime = Time.time;
 
         points = new float[width + 1, height + 1, depth + 1];
@@ -43,13 +48,14 @@ public class CaveData : MonoBehaviour
         size = width * height * depth;
         remainingVertices = size;
 
-        for(int x = 0; x < width; x++)
+        for(int x = 0; x <= width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y <= height; y++)
             {
-                for(int z = 0; z < depth; z++)
+                for(int z = 0; z <= depth; z++)
                 {
                     points[x, y, z] = 1f;
+                    voxelNodes.Add(new Vector3(x, y, z), new List<Node>());
                 }
             }
         }
@@ -168,6 +174,19 @@ public class CaveData : MonoBehaviour
                 {
                     if (points[x, y, z] == 0f)
                     {
+                        float lowestNodeHeight = height;
+                        int lowestIndex = 0;
+
+                        for(int i = 0; i < voxelNodes[new Vector3(x, y, z)].Count; i++)
+                        {
+                            if (voxelNodes[new Vector3(x, y, z)][i].transform.position.y < lowestNodeHeight)
+                            {
+                                lowestNodeHeight = voxelNodes[new Vector3(x, y, z)][i].transform.position.y;
+                                lowestIndex = i;
+                            }
+                        }
+                        voxelNodes[new Vector3(x, y, z)][lowestIndex].bottomNode = true;
+
                         return new Vector3((float)x, (float)y, (float)z);
                     }
                 }
@@ -243,5 +262,17 @@ public class CaveData : MonoBehaviour
     {
         get { return gameManager; }
         set { gameManager = value; }
+    }
+
+    public void AppendVoxelNodes(Vector3 voxel, Node node)
+    {
+        if (voxel.x < 0 || voxel.x > width ||
+            voxel.y < 0 || voxel.y > height ||
+            voxel.z < 0 || voxel.z > depth ||
+            Mathf.Ceil(voxel.x) != voxel.x || Mathf.Ceil(voxel.y) != voxel.y || Mathf.Ceil(voxel.z) != voxel.z) return;
+
+        if (voxelNodes[voxel].Contains(node)) return;
+
+        voxelNodes[voxel].Add(node);
     }
 }

@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public float maxRadius;
     public float minRadius;
     public bool bubbleEmitters;
+    public float minTunnelLength;
 
     public UIManager UIManager
     { get { return uiManager; } }
@@ -77,20 +78,20 @@ public class GameManager : MonoBehaviour
     {
         GameObject go = Instantiate(caveGenerator);
 
-        RandomWalker rw = go.GetComponentInChildren<RandomWalker>();
-
-        rw.GameManager = this;
-        rw.Seed = caveSeed;
-        rw.MaxLength = maxTunnelLength;
-        rw.MaxRadius = maxRadius;
-        
-
         CaveData cd = go.GetComponentInChildren<CaveData>();
         cd.Dimensions = new Vector3(caveWidth, caveHeight, caveDepth);
         cd.LoadingBar = loadingBar;
         cd.GameManager = this;
 
         cd.InitializeVertices();
+
+        RandomWalker rw = go.GetComponentInChildren<RandomWalker>();
+
+        rw.GameManager = this;
+        rw.Seed = caveSeed;
+        rw.MaxLength = maxTunnelLength;
+        rw.minSectionLength = minTunnelLength;
+        rw.MaxRadius = maxRadius;
 
         rw.Initialize();
 

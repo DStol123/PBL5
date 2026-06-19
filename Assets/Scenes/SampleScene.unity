@@ -1042,7 +1042,7 @@ MonoBehaviour:
   caveGenerator: {fileID: 6833197049942015350, guid: c49bc62536f4fd74da4ecab08f548a67, type: 3}
   loadingBar: {fileID: 806405543}
   cameraMovement: {fileID: 407071090}
-  caveFillPercent: 0.82
+  caveFillPercent: 0.86
   caveWidth: 100
   caveHeight: 100
   caveDepth: 100
@@ -1051,6 +1051,7 @@ MonoBehaviour:
   maxRadius: 8
   minRadius: 0
   bubbleEmitters: 0
+  minTunnelLength: 4
 --- !u!4 &175739690
 Transform:
   m_ObjectHideFlags: 0
@@ -1304,7 +1305,7 @@ MonoBehaviour:
   gameManager: {fileID: 175739689}
   cameraMovement: {fileID: 407071090}
   monitorInput: {fileID: 195975497}
-  inUse: 1
+  inUse: 0
 --- !u!114 &195975500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1318,7 +1319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamepadInput
   cameraMovement: {fileID: 407071090}
-  inUse: 1
+  inUse: 0
 --- !u!1 &243463518
 GameObject:
   m_ObjectHideFlags: 0
