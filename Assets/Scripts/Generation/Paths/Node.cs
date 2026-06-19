@@ -16,4 +16,17 @@ public class Node : MonoBehaviour
     {
         connections.Add(node, Mathf.Abs((node.transform.position - transform.position).magnitude));
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, 0.6f);
+
+        Gizmos.color = Color.turquoise;
+
+        foreach(Node node in connections.Keys)
+        {
+            Gizmos.DrawLine(transform.position, node.transform.position);
+        }
+    }
 }
