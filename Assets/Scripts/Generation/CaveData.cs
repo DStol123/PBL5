@@ -142,7 +142,17 @@ public class CaveData : MonoBehaviour
 
     public void FindPathToBottom()
     {
-        pathToBottom = allNodes[0].AStar();
+        float length = 0;
+
+        pathToBottom = allNodes[0].FindDirectPath();
+
+        for(int i = 0; i < pathToBottom.Count - 1; i++)
+        {
+            length += pathToBottom[i].connections[pathToBottom[i + 1]];
+        }
+
+        gameManager.pathLength = length;
+        gameManager.pathNodes = pathToBottom.Count;
     }
 
     private float[] Neighbors(int xpos, int ypos, int zpos)

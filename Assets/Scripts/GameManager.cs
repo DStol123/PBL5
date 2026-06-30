@@ -37,6 +37,13 @@ public class GameManager : MonoBehaviour
     public bool bubbleEmitters;
     public float minTunnelLength;
 
+    public float pathLength;
+    public int pathNodes;
+
+    public string participant;
+
+    public CaveData caveData;
+
     public UIManager UIManager
     { get { return uiManager; } }
 
@@ -68,7 +75,7 @@ public class GameManager : MonoBehaviour
             timeToReturn = 9999f;
         }
 
-        recorder.WriteTrialLog(vrExperience, timeToBottom, timeToReturn, true, Time.time - timeAtLoad);
+        recorder.WriteTrialLog(participant, vrExperience, timeToBottom, timeToReturn, true, Time.time - timeAtLoad, bubbleEmitters, uiManager.ArtificialHorizon.activeInHierarchy, false);
 
         QuitGame();
     }
@@ -78,12 +85,12 @@ public class GameManager : MonoBehaviour
     {
         GameObject go = Instantiate(caveGenerator);
 
-        CaveData cd = go.GetComponentInChildren<CaveData>();
-        cd.Dimensions = new Vector3(caveWidth, caveHeight, caveDepth);
-        cd.LoadingBar = loadingBar;
-        cd.GameManager = this;
+        caveData = go.GetComponentInChildren<CaveData>();
+        caveData.Dimensions = new Vector3(caveWidth, caveHeight, caveDepth);
+        caveData.LoadingBar = loadingBar;
+        caveData.GameManager = this;
 
-        cd.InitializeVertices();
+        caveData.InitializeVertices();
 
         RandomWalker rw = go.GetComponentInChildren<RandomWalker>();
 
@@ -98,7 +105,7 @@ public class GameManager : MonoBehaviour
         uiManager.EnableMenu(3);
         uiManager.EnableMenu(5);
 
-        cameraMovement.CaveData = cd;
+        cameraMovement.CaveData = caveData;
         cameraMovement.Initialize();
     }
     public bool LookInverted
@@ -120,8 +127,8 @@ public class GameManager : MonoBehaviour
 
     public void WriteResults()
     {
-        
-        recorder.WriteTrialLog(vrExperience, timeToBottom, timeToReturn, false, 0f);
+
+        recorder.WriteTrialLog(participant, vrExperience, timeToBottom, timeToReturn, false, 0f, bubbleEmitters, uiManager.ArtificialHorizon.activeInHierarchy, false); ;
     }
 
     public float TimeToReturn

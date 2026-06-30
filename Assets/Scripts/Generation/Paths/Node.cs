@@ -10,6 +10,7 @@ public class Node : MonoBehaviour
     public bool startingNode;
     public bool bottomNode;
     public bool onPath;
+    public bool flaggedRedundant;
 
     public RandomWalker rw;
 
@@ -53,7 +54,7 @@ public class Node : MonoBehaviour
         return true;
     }
 
-    public List<Node> AStar()
+    public List<Node> FindDirectPath()
     {
         List<Node> path = new List<Node>();
         path.Add(this);
@@ -69,7 +70,7 @@ public class Node : MonoBehaviour
 
         Node destination = null;
 
-        float totalScore = 0f;
+        int counter = 1;
 
         foreach (Node node in caveData.allNodes)
         {
@@ -84,6 +85,10 @@ public class Node : MonoBehaviour
 
         while(!found)
         {
+            Debug.Log("DFS pass " + counter);
+
+            counter++;
+
             float lowestScore = float.MaxValue;
             Node bestNode = null;
 
@@ -91,8 +96,15 @@ public class Node : MonoBehaviour
             {
                 if (explored.Contains(node)) continue;
 
+                if(node.PathConnectionCount() > 1)
+                {
+                    continue;
+                }
+
                 if(node.bottomNode)
                 {
+                    Debug.Log("Path complete");
+
                     path.Add(node);
 
                     node.onPath = true;
@@ -102,7 +114,7 @@ public class Node : MonoBehaviour
                     return path;
                 }
 
-                float score = totalScore + currentNode.connections[node] + Mathf.Abs((node.transform.position - destination.transform.position).magnitude);
+                float score = currentNode.connections[node] + Mathf.Abs((node.transform.position - destination.transform.position).magnitude);
 
                 if(score < lowestScore)
                 {
@@ -113,24 +125,43 @@ public class Node : MonoBehaviour
 
             if(bestNode == null)
             {
+                Debug.Log("No valid node found, backtracking");
+
                 path.Remove(currentNode);
                 currentNode.onPath = false;
+                explored.Add(currentNode); 
 
                 if(path.Count > 1) currentNode = path[path.Count - 1];
             }
 
             else
             {
+                Debug.Log("Node appended to path");
+
                 currentNode = bestNode;
-                path.Add(currentNode);
+
+                if(!path.Contains(currentNode)) path.Add(currentNode);
+
                 explored.Add(currentNode);
-                bestNode.onPath = true;
+                currentNode.onPath = true;
             }
 
             lowestScore = float.MaxValue;
         }
 
         return null;
+    }
+
+    public int PathConnectionCount()
+    {
+        int counter = 0;
+
+        foreach(Node node in connections.Keys)
+        {
+            if (node.onPath) counter++;
+        }
+
+        return counter;
     }
 
     private void OnDrawGizmos()

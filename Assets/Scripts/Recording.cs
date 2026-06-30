@@ -4,9 +4,9 @@ using System.IO;
 
 public class Recording : MonoBehaviour
 {
-    private string filePath = "trialLogs.csv";
+    private string filePath = "newTrialLogs.csv";
 
-    public void WriteTrialLog(int vrExperience, float timeToBottom, float timeToReturn, bool nauseous, float nauseaTime)
+    public void WriteTrialLog(string part, int vrExperience, float timeToBottom, float timeToReturn, bool nauseous, float nauseaTime, bool bubbles, bool ah, bool li)
     {
         if(!File.Exists(filePath))
         {
@@ -14,7 +14,7 @@ public class Recording : MonoBehaviour
 
             StreamWriter writer = new StreamWriter(filePath, true);
 
-            string Columns = "Date,Time,VR Experience,Time to Bottom,Time to Return,Time to Become Nauseous";
+            string Columns = "Participant,Date,Time,VR Experience,Time to Bottom,Time to Return,Time to Become Nauseous,Bubbles,AH,LI,Headache Before,Headache After,Nausea Before,NauseaAfter,DizzinessBefore,DizzinessAfter,NASA Mental,NASA Physical,NASA Temporal,NASA Performance,NASA Effort,NASA Frustration";
 
             writer.WriteLine(Columns);
 
@@ -24,7 +24,7 @@ public class Recording : MonoBehaviour
 
         StreamWriter sw = new StreamWriter(filePath, true);
 
-        sw.WriteLine($"{DateTime.Today.ToString("yyyy-MM-dd")},{DateTime.Now.TimeOfDay},{vrExperience},{timeToBottom.ToString("0.00")},{timeToReturn.ToString("0.00")},{nauseaTime.ToString("0.00")}");
+        sw.WriteLine($"{part},{DateTime.Today.ToString("yyyy-MM-dd")},{DateTime.Now.TimeOfDay},{vrExperience},{timeToBottom.ToString("0.00")},{timeToReturn.ToString("0.00")},{nauseaTime.ToString("0.00")},{bubbles},{ah},{li}");
 
         sw.Flush();
         sw.Close();

@@ -123,4 +123,9 @@ public class UIManager : MonoBehaviour
         get { return goalText; }
         set { goalText = value; }
     }
+
+    public GameObject ArtificialHorizon
+    {
+        get { return  artificialHorizon; }
+    }
 }
