@@ -135,25 +135,19 @@ public class Node : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if(!caveData.onlyDisplayRoute || onPath)
-        {
-            Gizmos.color = Color.salmon;
-            Gizmos.DrawSphere(transform.position, 0.6f);
-        }
+        if (caveData.onlyDisplayRoute && !onPath) return;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, 0.6f);
+
 
         Gizmos.color = Color.turquoise;
 
         foreach(Node node in connections.Keys)
         {
-            if(this.onPath && node.onPath)
-            {
-                Gizmos.color = Color.yellow;;
-            }
-            if (caveData.onlyDisplayRoute && !node.onPath) return;
+            if (caveData.onlyDisplayRoute && !node.onPath) continue;
 
             Gizmos.DrawLine(transform.position, node.transform.position);
-
-            Gizmos.color = Color.turquoise;
         }
     }
 }
