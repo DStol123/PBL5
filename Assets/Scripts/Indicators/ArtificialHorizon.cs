@@ -34,5 +34,11 @@ public class ArtificialHorizon : MonoBehaviour
             offset * Mathf.Sin(rollRad),
             offset * Mathf.Cos(rollRad)
         );
+
+        horizonRect.anchoredPosition = new Vector2
+            (
+                Mathf.Clamp(horizonRect.anchoredPosition.x, -210f, 210f),
+                Mathf.Clamp(horizonRect.anchoredPosition.y, -148f, 145f)
+            );
     }
 }

@@ -1052,6 +1052,11 @@ MonoBehaviour:
   minRadius: 0
   bubbleEmitters: 0
   minTunnelLength: 4
+  averageDistanceFromPath: 0
+  pathLength: 0
+  pathNodes: 0
+  participant: 
+  caveData: {fileID: 0}
 --- !u!4 &175739690
 Transform:
   m_ObjectHideFlags: 0
@@ -12008,7 +12013,7 @@ PrefabInstance:
       objectReference: {fileID: 989042575}
     - target: {fileID: 1030110662707811538, guid: d1d8fd609974195449db1192b3f88265, type: 3}
       propertyPath: pixelsPerDegree
-      value: 4.4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1266623264730924751, guid: d1d8fd609974195449db1192b3f88265, type: 3}
       propertyPath: m_Camera
@@ -12024,7 +12029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2930009275631270948, guid: d1d8fd609974195449db1192b3f88265, type: 3}
       propertyPath: m_Color.a
-      value: 0.12941177
+      value: 0.07058824
       objectReference: {fileID: 0}
     - target: {fileID: 4672915123926240011, guid: d1d8fd609974195449db1192b3f88265, type: 3}
       propertyPath: m_Name
