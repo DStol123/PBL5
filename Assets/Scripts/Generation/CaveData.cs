@@ -19,6 +19,9 @@ public class CaveData : MonoBehaviour
     [SerializeField] private GameObject bubbleEmitter;
 
     public Dictionary<Vector3, List<Node>> voxelNodes;
+    public List<Node> allNodes = new();
+
+    public List<Node> pathToBottom = new List<Node>();
 
     public Image LoadingBar;
 
@@ -30,6 +33,8 @@ public class CaveData : MonoBehaviour
     private float[,,] points;
 
     private bool initialized;
+
+    public bool onlyDisplayRoute;
 
     private void Update()
     {
@@ -98,7 +103,8 @@ public class CaveData : MonoBehaviour
     
     public void GenerateMesh()
     {
-        Smooth(smoothingIterations);
+        //Smooth(smoothingIterations);
+        ConnectNodes(30f);
 
         mcRenderer.MarchCubes();
 
@@ -132,6 +138,11 @@ public class CaveData : MonoBehaviour
             }
         }
         points = newPoints;
+    }
+
+    public void FindPathToBottom()
+    {
+        pathToBottom = allNodes[0].AStar();
     }
 
     private float[] Neighbors(int xpos, int ypos, int zpos)
@@ -210,6 +221,19 @@ public class CaveData : MonoBehaviour
             return false;
 
         return true;
+    }
+
+    public void ConnectNodes(float maxDistance)
+    {
+        for(int i = 0; i < allNodes.Count; i++)
+        {
+            for(int j = 0; j < allNodes.Count; j++)
+            {
+                if (allNodes[i].InLineOfSight(allNodes[j]) && 
+                    Mathf.Abs((allNodes[i].transform.position - allNodes[j].transform.position).magnitude) <= maxDistance) 
+                allNodes[i].AddNode(allNodes[j]);
+            }
+        }
     }
 
     private float AverageNeighbors(float[] neighbors)

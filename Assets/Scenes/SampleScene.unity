@@ -1046,7 +1046,7 @@ MonoBehaviour:
   caveWidth: 100
   caveHeight: 100
   caveDepth: 100
-  caveSeed: beepboop
+  caveSeed: 
   maxTunnelLength: 12
   maxRadius: 8
   minRadius: 0

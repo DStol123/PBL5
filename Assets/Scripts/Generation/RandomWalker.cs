@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 
 public class RandomWalker : MonoBehaviour
 {
@@ -70,6 +71,8 @@ public class RandomWalker : MonoBehaviour
 
         InitializeEndGoal();
 
+        caveData.FindPathToBottom();
+
         Destroy(this.gameObject);
     }
 
@@ -80,48 +83,103 @@ public class RandomWalker : MonoBehaviour
 
     private void ClearPathPureMath()
     {
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+
         currentRadius = RandomRadius();
 
         if (previousNode == null)
         {
             previousNode = nodePlacer.PlaceNode(transform.position);
             previousNode.startingNode = true;
+
+            caveData.allNodes.Add(previousNode);
+        }
+
+        previousNode.tunnelEnd = true;
+        previousNode.rw = this;
+
+        previousNode.caveData = caveData;
+
+        destination = RandomDestination();
+
+        Node potentialReplacement = ReplacementNode(destination, 10f);
+
+        if (potentialReplacement != null)
+        {
+            nextNode = potentialReplacement;
+
+            destination = nextNode.transform.position;
         }
 
         else
         {
-            previousNode = nodePlacer.PlaceNode(transform.position, previousNode);
+            nextNode = nodePlacer.PlaceNode(destination, previousNode);
+
+            nextNode.tunnelEnd = true;
+
+            nextNode.rw = this;
+
+            nextNode.caveData = caveData;
+
+            caveData.allNodes.Add(nextNode);
         }
 
-        destination = RandomDestination();
-
-        nextNode = nodePlacer.PlaceNode(destination, previousNode);
+        Vector3 min = Vector3.Min(transform.position, destination) - Vector3.one * currentRadius;
+        Vector3 max = Vector3.Max(transform.position, destination) + Vector3.one * currentRadius;
 
         HashSet<(Node, Node)> intersectedPairs = new();
 
-        for (int x = 0; x < caveData.Points.GetLength(0); x++)
+        HashSet<(Node, Node)> processedPairs = new();
+
+        sw.Stop();
+
+        Debug.Log($"Loop setup time: {sw.ElapsedMilliseconds} ms");
+
+        for (int x = Mathf.FloorToInt(min.x); x < Mathf.CeilToInt(max.x); x++)
         {
-            for (int y = 0; y < caveData.Points.GetLength(1); y++)
+            for (int y = Mathf.FloorToInt(min.y); y < Mathf.CeilToInt(max.y); y++)
             {
-                for (int z = 0; z < caveData.Points.GetLength(2); z++)
+                for (int z = Mathf.FloorToInt(min.z); z < Mathf.CeilToInt(max.z); z++)
                 {
+                    if (x < 0 || x >= caveData.Points.GetLength(0) ||
+                        y < 0 || y >= caveData.Points.GetLength(1) ||
+                        z < 0 || z >= caveData.Points.GetLength(2)
+                        )
+                        continue;
+
                     if (Captured(new Vector3(x, y, z)))
                     {
+                        sw.Restart();
                         caveData.AppendVoxelNodes(new Vector3(x, y, z), previousNode);
                         caveData.AppendVoxelNodes(new Vector3(x, y, z), nextNode);
+                        sw.Stop();
+
+                        Debug.Log($"Appending Voxel Nodes: {sw.ElapsedMilliseconds} ms");
 
                         if (caveData.Points[x, y, z] == 0f)
                         {
                             Node[] intersectedNodePair = { caveData.voxelNodes[new Vector3(x, y, z)][0],
                                 caveData.voxelNodes[new Vector3(x, y, z)][1] };
 
-                            if (!intersectedPairs.Contains((intersectedNodePair[0], intersectedNodePair[1])))
+                            bool validIntersectionExists = false;
+
+                            Node intersectionNode = ReplacementNode(new Vector3(x, y, z), 10f);
+
+                            if (intersectionNode != null) validIntersectionExists = true;
+
+                            if (!validIntersectionExists && !intersectedPairs.Contains((intersectedNodePair[0], intersectedNodePair[1])))
                             {
-                                Node intersectionNode = nodePlacer.PlaceNode(new Vector3(x, y, z), intersectedNodePair);
+                                intersectionNode = nodePlacer.PlaceNode(new Vector3(x, y, z), intersectedNodePair);
                                 intersectionNode.AddNode(previousNode);
                                 intersectionNode.AddNode(nextNode);
 
+                                intersectionNode.rw = this;
+
+                                caveData.allNodes.Add(intersectionNode);
+
                                 intersectedPairs.Add((intersectedNodePair[0], intersectedNodePair[1]));
+
+                                intersectionNode.caveData = caveData;
 
                                 caveData.AppendVoxelNodes(new Vector3(x, y, z), intersectionNode);
                             }
@@ -131,6 +189,7 @@ public class RandomWalker : MonoBehaviour
 
                         caveData.Points[x, y, z] = 0f;
                         caveData.RemainingVertices--;
+
                     }
                 }
             }
@@ -149,15 +208,17 @@ public class RandomWalker : MonoBehaviour
 
     private bool Captured(Vector3 point)
     {
-        Vector3 tunnelLine = destination - transform.position;
+        Vector3 line = destination - transform.position;
 
-        Vector3 lineToPoint = point - transform.position;
+        float t = Vector3.Dot(point - transform.position, line) / line.sqrMagnitude;
 
-        float distanceToPoint = lineToPoint.magnitude;
+        t = Mathf.Clamp01(t);
 
-        float angle = Vector3.Angle(tunnelLine, lineToPoint) * Mathf.Deg2Rad;
+        Vector3 closest = transform.position + line * t;
 
-        return (Mathf.Sin(angle) * distanceToPoint <= currentRadius) && (Mathf.Cos(angle) * distanceToPoint <= tunnelLine.magnitude) && Vector3.Dot(lineToPoint, tunnelLine) >= 0;
+        float sqrDistance = (point - closest).sqrMagnitude;
+
+        return sqrDistance <= currentRadius * currentRadius;
     }
 
 
@@ -185,7 +246,7 @@ public class RandomWalker : MonoBehaviour
         return (float)rng.NextDouble() * (maxRadius - minRadius) + minRadius;
     }
 
-    private Vector3 BoundVector(Vector3 input, Vector3 nBounds, Vector3 pBounds)
+    public Vector3 BoundVector(Vector3 input, Vector3 nBounds, Vector3 pBounds)
     {
         return new Vector3(
             Mathf.Clamp(input.x, nBounds.x, pBounds.x),
@@ -251,6 +312,52 @@ public class RandomWalker : MonoBehaviour
         startGoal.EndGoal = endGoal;
     }
 
+    public bool InLineOfSight(Vector3 pos, Node node)
+    {
+        Vector3 dir = (node.transform.position - pos).normalized;
+
+        float distance = Vector3.Distance(node.transform.position, pos);
+
+        for (float d = 0; d < distance; d += 0.5f)
+        {
+            Vector3 p = pos + dir * d;
+
+            if (p != BoundVector(p, NegativeBounds, PositiveBounds)) continue;
+
+            if (caveData.Points[
+                Mathf.FloorToInt(p.x),
+                Mathf.FloorToInt(p.y),
+                Mathf.FloorToInt(p.z)] > caveData.Threshold)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public Node ReplacementNode(Vector3 pos, float maxDistance)
+    {
+        float bestDistance = maxDistance;
+        Node bestNode = null;
+
+        foreach(Node node in caveData.allNodes)
+        {
+            if (!(Mathf.Abs((node.transform.position - pos).magnitude) < maxDistance &&
+                InLineOfSight(pos, node))
+                )
+                continue;
+                
+            if(Mathf.Abs((node.transform.position - pos).magnitude) < bestDistance)
+            {
+                bestDistance = (node.transform.position - pos).magnitude;
+                bestNode = node;
+            }
+        }
+
+        return bestNode;
+    }
+
     public string Seed
     {
         get { return seed; }
@@ -279,5 +386,15 @@ public class RandomWalker : MonoBehaviour
     {
         get { return maxSectionLength; }
         set { maxSectionLength = value; }
+    }
+
+    public Vector3 NegativeBounds
+    {
+        get { return  negativeBounds; }
+    }
+
+    public Vector3 PositiveBounds
+    {
+        get { return positiveBounds; }
     }
 }

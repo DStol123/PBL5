@@ -12,6 +12,8 @@ public class MarchingCubeRenderer : MonoBehaviour
     private List<int> triangles;
 
     private MeshFilter meshFilter;
+    private Mesh mesh;
+    private MeshCollider meshCollider;
 
     private void Start()
     {
@@ -111,7 +113,7 @@ public class MarchingCubeRenderer : MonoBehaviour
 
     private void SetMesh()
     {
-        Mesh mesh = new Mesh();
+        if(mesh == null) mesh = new Mesh();
 
         mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
 
@@ -121,7 +123,7 @@ public class MarchingCubeRenderer : MonoBehaviour
 
         meshFilter.mesh = mesh;
 
-        MeshCollider meshCollider = gameObject.AddComponent<MeshCollider>();
+        if(meshCollider == null) meshCollider = gameObject.AddComponent<MeshCollider>();
 
         meshCollider.sharedMesh = meshFilter.mesh;
     }

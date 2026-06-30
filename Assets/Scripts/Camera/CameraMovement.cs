@@ -37,11 +37,8 @@ public class CameraMovement : MonoBehaviour
     private void Update()
     {
         if (!initialized) return;
-
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            Calibrate();
-        }
+        
+        Calibrate();
 
         ApplyMovement();
         
