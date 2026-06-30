@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -27,9 +28,15 @@ public class CameraMovement : MonoBehaviour
 
     public bool initialized;
 
+    private int distanceCounter;
+    private float distanceTotal;
+
     private void Start()
     {
         if (fovChanger != null) return;
+
+        distanceCounter = 0;
+        distanceTotal = 0;
 
         fovChanger = GetComponentInChildren<FOVChanger>();
     }
@@ -54,6 +61,16 @@ public class CameraMovement : MonoBehaviour
         transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight + 1f, gameManager.caveDepth / 2f);
 
         initialized = true;
+    }
+
+    public void SetAverageDistanceToPath()
+    {
+        distanceTotal += DistanceFromPath();
+        distanceCounter++;
+
+        gameManager.averageDistanceFromPath = distanceTotal / distanceCounter;
+
+        Invoke("SetAverageDistanceToPath", 1f);
     }
 
     public void Calibrate()
@@ -89,6 +106,69 @@ public class CameraMovement : MonoBehaviour
             Mathf.Lerp(localVelocity.y, 0f, acceleration.y == 0f ? breakingAcceleration * Time.deltaTime : 0f),
             Mathf.Lerp(localVelocity.z, 0f, acceleration.z == 0f ? breakingAcceleration * Time.deltaTime : 0f)
             ));
+    }
+
+    public float DistanceFromPath()
+    {
+        Node[] nodes = ClosestNodePairOnPath();
+
+        if (nodes[1] == null) return Mathf.Abs((nodes[0].transform.position - transform.position).magnitude);
+
+        Vector3 line = nodes[1].transform.position - nodes[0].transform.position;
+
+        float distanceAlongLine = Vector3.Dot(line, transform.position - nodes[0].transform.position) / line.sqrMagnitude;
+        distanceAlongLine = Mathf.Clamp01(distanceAlongLine);
+
+        Vector3 positionAlongLine = nodes[0].transform.position + line * distanceAlongLine;
+
+        return Mathf.Abs((positionAlongLine - transform.position).magnitude);
+    }
+
+    private Node[] ClosestNodePairOnPath()
+    {
+        Node[] nodes = new Node[2];
+        float closest = float.MaxValue;
+
+        Node firstNode = null;
+
+        foreach(Node node in gameManager.caveData.pathToBottom)
+        {
+            float distance = Mathf.Abs((node.transform.position - transform.position).magnitude);
+            if (distance < closest)
+            {
+                closest = distance;
+                firstNode = node;
+            }
+        }
+
+        nodes[0] = firstNode;
+
+        closest = float.MaxValue;
+
+        Vector3 firstNodeRelativePosition = firstNode.transform.position - transform.position;
+
+        Node secondNode = null;
+
+        foreach (Node node in gameManager.caveData.pathToBottom)
+        {
+            if (node == firstNode) continue;
+
+            if (!node.InLineOfSight(firstNode)) continue;
+
+            Vector3 relativePos = node.transform.position - transform.position;
+
+            if (Vector3.Dot(firstNodeRelativePosition, relativePos) > 0f) continue;
+
+            if(Mathf.Abs((relativePos).magnitude) < closest)
+            {
+                closest = Mathf.Abs(relativePos.magnitude);
+                secondNode = node;
+            }
+        }
+
+        nodes[1] = secondNode;
+
+        return nodes;
     }
 
     public Vector3 Acceleration

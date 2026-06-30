@@ -63,6 +63,8 @@ public class GoalBehavior : MonoBehaviour
         endGoal.Active = true;
 
         Active = true;
+
+        gameManager.CameraMovement.SetAverageDistanceToPath();
     }
 
     public bool Active

@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public float minRadius;
     public bool bubbleEmitters;
     public float minTunnelLength;
+    public float averageDistanceFromPath;
 
     public float pathLength;
     public int pathNodes;
@@ -123,6 +124,12 @@ public class GameManager : MonoBehaviour
     public float LookInversionMultiplier
     {
         get { return lookInversionMultiplier; }
+    }
+
+    public CameraMovement CameraMovement
+    { 
+        get { return cameraMovement; }
+        set {  cameraMovement = value; }
     }
 
     public void WriteResults()
