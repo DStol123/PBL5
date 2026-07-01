@@ -103,7 +103,7 @@ public class CaveData : MonoBehaviour
     
     public void GenerateMesh()
     {
-        //Smooth(smoothingIterations);
+        Smooth(smoothingIterations);
         ConnectNodes(30f);
 
         mcRenderer.MarchCubes();
@@ -153,6 +153,20 @@ public class CaveData : MonoBehaviour
 
         gameManager.pathLength = length;
         gameManager.pathNodes = pathToBottom.Count;
+    }
+
+    public float TotalPathCost()
+    {
+        float total = 0f;
+
+        for (int i = 1; i < pathToBottom.Count; i++)
+        {
+            total += pathToBottom[i - 1].connections[pathToBottom[i]];
+        }
+
+        gameManager.pathLength = total;
+
+        return total;
     }
 
     private float[] Neighbors(int xpos, int ypos, int zpos)

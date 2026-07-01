@@ -11,6 +11,7 @@ public class Node : MonoBehaviour
     public bool bottomNode;
     public bool onPath;
     public bool flaggedRedundant;
+    public float totalCost;
 
     public RandomWalker rw;
 
@@ -35,6 +36,30 @@ public class Node : MonoBehaviour
         Vector3 dir = (node.transform.position - transform.position).normalized;
 
         float distance = Vector3.Distance(node.transform.position, transform.position);
+
+        for (float d = 0; d < distance; d += 0.5f)
+        {
+            Vector3 p = transform.position + dir * d;
+
+            if (p != rw.BoundVector(p, rw.NegativeBounds, rw.PositiveBounds)) continue;
+
+            if (caveData.Points[
+                Mathf.FloorToInt(p.x),
+                Mathf.FloorToInt(p.y),
+                Mathf.FloorToInt(p.z)] > caveData.Threshold)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool InLineOfSight(Vector3 pos)
+    {
+        Vector3 dir = (pos - transform.position).normalized;
+
+        float distance = Vector3.Distance(pos, transform.position);
 
         for (float d = 0; d < distance; d += 0.5f)
         {
@@ -162,6 +187,24 @@ public class Node : MonoBehaviour
         }
 
         return counter;
+    }
+
+    public float CostToHere()
+    {
+        if (!onPath) return float.MaxValue;
+
+        if (startingNode) return 0f;
+
+        float total = 0f;
+
+        for(int i = 1; i < caveData.pathToBottom.Count; i++)
+        {
+            total += caveData.pathToBottom[i - 1].connections[caveData.pathToBottom[i]];
+
+            if (caveData.pathToBottom[i] == this) break;
+        }
+
+        return total;
     }
 
     private void OnDrawGizmos()

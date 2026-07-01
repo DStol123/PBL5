@@ -134,8 +134,13 @@ public class GameManager : MonoBehaviour
 
     public void WriteResults()
     {
-
         recorder.WriteTrialLog(participant, vrExperience, timeToBottom, timeToReturn, false, 0f, bubbleEmitters, uiManager.ArtificialHorizon.activeInHierarchy, false); ;
+    }
+
+    public Recording Recorder
+    {
+        get { return recorder; }
+        set { recorder = value; }
     }
 
     public float TimeToReturn

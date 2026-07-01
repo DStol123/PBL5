@@ -1055,7 +1055,7 @@ MonoBehaviour:
   averageDistanceFromPath: 0
   pathLength: 0
   pathNodes: 0
-  participant: 
+  participant: 3
   caveData: {fileID: 0}
 --- !u!4 &175739690
 Transform:
@@ -1310,7 +1310,7 @@ MonoBehaviour:
   gameManager: {fileID: 175739689}
   cameraMovement: {fileID: 407071090}
   monitorInput: {fileID: 195975497}
-  inUse: 0
+  inUse: 1
 --- !u!114 &195975500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1324,7 +1324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamepadInput
   cameraMovement: {fileID: 407071090}
-  inUse: 0
+  inUse: 1
 --- !u!1 &243463518
 GameObject:
   m_ObjectHideFlags: 0
@@ -2328,7 +2328,7 @@ MonoBehaviour:
   cameraOffset: {fileID: 1826875878}
   fovChanger: {fileID: 407071093}
   caveData: {fileID: 0}
-  initialized: 0
+  initialized: 1
 --- !u!136 &407071091
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4471,7 +4471,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &896585451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9299,7 +9299,7 @@ Transform:
   m_GameObject: {fileID: 1826875877}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.464, z: 0.337}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12013,7 +12013,7 @@ PrefabInstance:
       objectReference: {fileID: 989042575}
     - target: {fileID: 1030110662707811538, guid: d1d8fd609974195449db1192b3f88265, type: 3}
       propertyPath: pixelsPerDegree
-      value: 8
+      value: 4.4
       objectReference: {fileID: 0}
     - target: {fileID: 1266623264730924751, guid: d1d8fd609974195449db1192b3f88265, type: 3}
       propertyPath: m_Camera

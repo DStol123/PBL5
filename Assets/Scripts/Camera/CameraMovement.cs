@@ -33,10 +33,10 @@ public class CameraMovement : MonoBehaviour
 
     private void Start()
     {
-        if (fovChanger != null) return;
-
         distanceCounter = 0;
         distanceTotal = 0;
+
+        if (fovChanger != null) return;
 
         fovChanger = GetComponentInChildren<FOVChanger>();
     }
@@ -44,8 +44,8 @@ public class CameraMovement : MonoBehaviour
     private void Update()
     {
         if (!initialized) return;
-        
-        Calibrate();
+
+        if (Input.GetKeyDown(KeyCode.C)) Calibrate();
 
         ApplyMovement();
         
@@ -58,40 +58,90 @@ public class CameraMovement : MonoBehaviour
 
     public void Initialize()
     {
-        transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight + 1f, gameManager.caveDepth / 2f);
+        transform.parent.transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight + 1f, gameManager.caveDepth / 2f);
 
         initialized = true;
     }
 
+    public void StartTimeSeries()
+    {
+        InvokeRepeating(nameof(SetAverageDistanceToPath), 1f, 1f);
+    }
+
     public void SetAverageDistanceToPath()
     {
-        distanceTotal += DistanceFromPath();
+        float currentDistance = DistanceFromPath();
+
+        distanceTotal += currentDistance;
         distanceCounter++;
 
         gameManager.averageDistanceFromPath = distanceTotal / distanceCounter;
 
-        Invoke("SetAverageDistanceToPath", 1f);
+        gameManager.Recorder.UpdateHistogram(distanceCounter, currentDistance, gameManager.participant, DistanceAlongPath(), Mathf.Clamp(100f - transform.position.y, 0f, 100f));
+    }
+
+    public float DistanceAlongPath()
+    {
+        var path = gameManager.caveData.pathToBottom;
+        if (path == null || path.Count < 2) return 0f;
+
+        float bestDistance = float.MaxValue;
+        float bestAlong = 0f;
+
+        float cumulative = 0f;
+
+        for (int i = 1; i < path.Count; i++)
+        {
+            Vector3 a = path[i - 1].transform.position;
+            Vector3 b = path[i].transform.position;
+
+            Vector3 ab = b - a;
+            Vector3 ap = transform.position - a;
+
+            float t = Vector3.Dot(ap, ab) / ab.sqrMagnitude;
+            float clampedT = Mathf.Clamp01(t);
+
+            Vector3 closestPoint = a + ab * clampedT;
+            float dist = (transform.position - closestPoint).sqrMagnitude;
+
+            if (dist < bestDistance)
+            {
+                bestDistance = dist;
+                bestAlong = cumulative + ab.magnitude * clampedT;
+            }
+
+            cumulative += ab.magnitude;
+        }
+
+        return bestAlong;
     }
 
     public void Calibrate()
     {
-        Vector3 rotationDifference;
-
-        Vector3 previousRotation = transform.rotation.eulerAngles;
+        Quaternion previousRotation = transform.rotation;
 
         transform.rotation = vrCamera.transform.rotation;
 
-        rotationDifference = transform.rotation.eulerAngles - previousRotation;
+        Quaternion rotationDifference = transform.rotation * Quaternion.Inverse(previousRotation);
 
-        cameraOffset.rotation = Quaternion.Euler(cameraOffset.rotation.eulerAngles - rotationDifference);
+        cameraOffset.rotation = rotationDifference * cameraOffset.rotation;
     }
 
     private void ApplyMovement()
     {
-        rb.AddRelativeForce(acceleration);
+        cameraOffset.localPosition = vrCamera.transform.localPosition * -1f;
 
-        transform.Rotate(angularVelocity * Time.deltaTime);
+        rb.AddForce(vrCamera.transform.rotation * acceleration);
 
+        Quaternion headsetRotation = vrCamera.transform.rotation;
+
+        Vector3 right = headsetRotation * Vector3.right;
+        Vector3 up = headsetRotation * Vector3.up;
+        Vector3 forward = headsetRotation * Vector3.forward;
+
+        transform.Rotate(right, angularVelocity.x * Time.deltaTime, Space.World);
+        transform.Rotate(up, angularVelocity.y * Time.deltaTime, Space.World);
+        transform.Rotate(forward, angularVelocity.z * Time.deltaTime, Space.World);
 
         rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maximumSpeed);
 
@@ -100,12 +150,18 @@ public class CameraMovement : MonoBehaviour
 
     private void BreakOnNoInput()
     {
-        Vector3 localVelocity = transform.InverseTransformDirection(rb.linearVelocity);
-        rb.linearVelocity = transform.TransformDirection(new Vector3(
+        Quaternion headsetRotation = vrCamera.transform.rotation;
+
+        Vector3 localVelocity =
+            Quaternion.Inverse(headsetRotation) * rb.linearVelocity;
+
+        localVelocity = new Vector3(
             Mathf.Lerp(localVelocity.x, 0f, acceleration.x == 0f ? breakingAcceleration * Time.deltaTime : 0f),
             Mathf.Lerp(localVelocity.y, 0f, acceleration.y == 0f ? breakingAcceleration * Time.deltaTime : 0f),
             Mathf.Lerp(localVelocity.z, 0f, acceleration.z == 0f ? breakingAcceleration * Time.deltaTime : 0f)
-            ));
+        );
+
+        rb.linearVelocity = headsetRotation * localVelocity;
     }
 
     public float DistanceFromPath()

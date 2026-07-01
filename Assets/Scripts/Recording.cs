@@ -29,4 +29,29 @@ public class Recording : MonoBehaviour
         sw.Flush();
         sw.Close();
     }
+
+    public void UpdateHistogram(int index, float distance, string participant, float distanceAlong, float depth)
+    {
+        string timeSeriesPath = $"{participant}TimeSeries.csv";
+
+        if (!File.Exists(timeSeriesPath))
+        {
+            File.Create(timeSeriesPath).Close();
+
+            StreamWriter writer = new StreamWriter(timeSeriesPath, true);
+
+            string Columns = "Seconds,Distance From Path,Distance Along Path,Depth";
+            writer.WriteLine(Columns);
+
+            writer.Flush();
+            writer.Close();
+        }
+
+        StreamWriter sw = new StreamWriter(timeSeriesPath, true);
+
+        sw.WriteLine($"{index},{distance.ToString("0.0")},{distanceAlong},{depth}");
+
+        sw.Flush();
+        sw.Close();
+    }
 }
