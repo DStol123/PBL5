@@ -1,2 +1,14 @@
-Participant,Date,Time,VR Experience,Time to Bottom,Time to Return,Time to Become Nauseous,Bubbles,AH,LI,Headache Before,Headache After,Nausea Before,NauseaAfter,DizzinessBefore,DizzinessAfter,NASA Mental,NASA Physical,NASA Temporal,NASA Performance,NASA Effort,NASA Frustration
-3,2026-07-01,20:49:05.9098023,2,77.25,156.64,0.00,False,True,False
+Participant,Date,Time,VR Experience,Time to Bottom,Time to Return,Time to Become Nauseous,Bubbles,AH,LI,Headache Before,Headache After,Nausea Before,NauseaAfter,DizzinessBefore,DizzinessAfter,NASA Mental,NASA Physical,NASA Temporal,NASA Performance,NASA Effort,NASA Frustration,Gender,Age,Scuba Diving Experience,Ground Cave Experience,Water Cave Experience,Video Game Experience,First Person Game Experience,Glasses/Contacts,Freeform
+1,01/07/2026,20:49:06,2,77.25,156.64,0,FALSE,TRUE,FALSE,1,2,0,0,0,0,4,1,4,3,4,4,M,24,0,0,0,10,8,FALSE,Couldn't tell passively if the horizon was pointing up or down
+2,03/07/2026,15:34:19,4,159.35,9999,537.08,TRUE,TRUE,FALSE,0,8,0,9,0,9,9,3,1,10,8,10,M,21,0,0,0,9,9,TRUE,"Not useful, added to confusion, overwhelming"
+3,03/07/2026,16:16:31,5,48.78,214.08,0,FALSE,FALSE,TRUE,1,4,0,3,1,5,7,2,1,2,7,6,M,20,0,0,0,5,5,TRUE,"Not useful, it's in the peripheral vision, so extra attention is needed to read it, good for answering ""where am I"""
+4,03/07/2026,16:48:35,4,99.8,284.83,0,TRUE,FALSE,TRUE,0,1,0,1,0,4,7,3,2,4,8,7,M,21,0,3,0,8,8,TRUE,"Not useful when going down, but useful when coming back up"
+1,03/07/2026,17:15:43,3,77.29,158.72,0,TRUE,FALSE,TRUE,2,3,1,1,1,2,3,1,2,2,3,2,M,24,0,0,0,10,8,FALSE,Could tell orientation from peripheral vision
+1,03/07/2026,17:59:30,3,244.92,1067.83,0,FALSE,FALSE,FALSE,2,4,1,1,1,3,8,1,5,8,8,6,M,24,0,0,0,10,8,FALSE,"There was a little bit of panic because I would get lost, and have no idea if I'm going in the correct direction"
+5,07/07/2026,13:10:52,3,80.34,290.42,0,FALSE,FALSE,FALSE,0,0,0,0,3,2,6,2,4,6,3,4,M,20,4,6,0,9,8,TRUE,Cave was confusing. Easy to get disoriented. Lack of spatial awareness.
+5,07/07/2026,13:20:39,4,123.51,200.32,0,TRUE,TRUE,FALSE,0,0,0,0,2,1,3,2,1,2,2,2,M,20,4,6,0,9,8,TRUE,"Did not use the AH, obscured view. Bubbles felt more useful"
+5,07/07/2026,13:46:58,4,64.07,161.39,0,FALSE,FALSE,TRUE,0,2,0,3,1,4,6,3,4,4,3,2,M,20,4,6,0,9,8,TRUE,The lights didn't help. Changing light positions get disorienting and nausea inducing. Originally not fond of lights
+1,07/07/2026,14:11:27,3,84.58,188.44,0,TRUE,TRUE,FALSE,1,1,0,1,0,1,4,2,2,3,2,1,M,24,0,0,0,10,8,FALSE,Used bubbles more than AH. Wasn't consious of AH when it was in peripheral vision.
+1,07/07/2026,14:18:20,3,78.5,177.07,0,FALSE,FALSE,FALSE,1,2,1,1,1,2,6,2,4,3,5,3,M,24,0,0,0,10,8,FALSE,Got a little bit disoriented. Sometimes couldn't read light indicator well.
+6,07/07/2026,14:28:31,7,46.11,97.23,0,TRUE,FALSE,FALSE,2,2,0,0,0,0,2,1,1,8,2,1,M,23,0,0,0,6,2,TRUE,Intuitive. Interesting environment.
+1,07/07/2026,17:42:55,3,66.3,149.23,0,TRUE,FALSE,FALSE,0,2,0,1,0,1,2,1,3,2,4,1,M,24,0,0,0,10,8,FALSE,Bubbles were always enough to get a grasp on orientation

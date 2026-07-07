@@ -1037,7 +1037,7 @@ MonoBehaviour:
   timeToBottom: 0
   timeToReturn: 0
   emitterDensity: 0.006
-  vrExperience: 2
+  vrExperience: 7
   recorder: {fileID: 175739691}
   caveGenerator: {fileID: 6833197049942015350, guid: c49bc62536f4fd74da4ecab08f548a67, type: 3}
   loadingBar: {fileID: 806405543}
@@ -1050,12 +1050,12 @@ MonoBehaviour:
   maxTunnelLength: 12
   maxRadius: 8
   minRadius: 0
-  bubbleEmitters: 0
+  bubbleEmitters: 1
   minTunnelLength: 4
   averageDistanceFromPath: 0
   pathLength: 0
   pathNodes: 0
-  participant: 3
+  participant: 6
   caveData: {fileID: 0}
 --- !u!4 &175739690
 Transform:
@@ -1927,7 +1927,7 @@ RectTransform:
   m_Father: {fileID: 1429468740}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6028,7 +6028,7 @@ RectTransform:
   m_Father: {fileID: 1365633118}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7250,7 +7250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!223 &1437807171
 Canvas:
   m_ObjectHideFlags: 0
