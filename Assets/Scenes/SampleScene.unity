@@ -1050,12 +1050,12 @@ MonoBehaviour:
   maxTunnelLength: 12
   maxRadius: 8
   minRadius: 0
-  bubbleEmitters: 1
+  bubbleEmitters: 0
   minTunnelLength: 4
   averageDistanceFromPath: 0
   pathLength: 0
   pathNodes: 0
-  participant: 6
+  participant: 7
   caveData: {fileID: 0}
 --- !u!4 &175739690
 Transform:
