@@ -34,6 +34,8 @@ public class RandomWalker : MonoBehaviour
     private Node previousNode;
     private Node nextNode;
 
+    [SerializeField] ScavengerManager scavengerManager;
+
     private float previousRadius;
 
     private bool initialized;
