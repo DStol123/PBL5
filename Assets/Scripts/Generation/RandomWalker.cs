@@ -34,7 +34,8 @@ public class RandomWalker : MonoBehaviour
     private Node previousNode;
     private Node nextNode;
 
-    [SerializeField] ScavengerManager scavengerManager;
+    [SerializeField] ScavengerPlacer scavengerManager;
+    private float previouslyPlacedAtPercent;
 
     private float previousRadius;
 
@@ -57,12 +58,14 @@ public class RandomWalker : MonoBehaviour
 
         rng = new System.Random(seed.GetHashCode());
 
-        transform.position = new Vector3(caveData.Dimensions.x / 2f, caveData.Dimensions.y + 2f, caveData.Dimensions.z / 2f);
+        transform.position = new Vector3(caveData.Dimensions.x / 2f, caveData.Dimensions.y / 2f, caveData.Dimensions.z / 2f);
 
         negativeBounds = Vector3.zero;
         positiveBounds = caveData.Dimensions;
 
-        InitializeReturnGoal();
+        //InitializeReturnGoal();
+
+        previouslyPlacedAtPercent = 0f;
 
         initialized = true;
     }
@@ -71,9 +74,9 @@ public class RandomWalker : MonoBehaviour
     {
         caveData.GenerateMesh();
 
-        InitializeEndGoal();
+        //InitializeEndGoal();
 
-        caveData.FindPathToBottom();
+        //caveData.FindPathToBottom();
 
         Destroy(this.gameObject);
     }
@@ -203,9 +206,15 @@ public class RandomWalker : MonoBehaviour
 
         previousRadius = currentRadius;
 
+        
         Debug.Log("Cave Generation " + caveData.PercentComplete * 100f + "% Complete");
 
         if (caveData.Filled()) Finish();
+
+        if (scavengerManager.TotalScavengerObjects == 0) return;
+        if (caveData.PercentComplete >= (scavengerManager.Placed + 1) / (scavengerManager.TotalScavengerObjects + 1) || caveData.PercentComplete >= 0.95f)
+            scavengerManager.PlaceObject(transform.position, Quaternion.Euler(Random.Range(0f, 360f), Random.Range(0f, 360f), Random.Range(0f, 360f)));
+
     }
 
     private bool Captured(Vector3 point)
@@ -236,7 +245,7 @@ public class RandomWalker : MonoBehaviour
              newZ + minSectionLength * Mathf.Abs(newZ - transform.position.z) / (newZ - transform.position.z)
             );
 
-        DownwardBias(0.15f);
+        //DownwardBias(0.15f);
 
         destination = BoundVector(destination, negativeBounds + Vector3.one * maxRadius * 2f, positiveBounds - Vector3.one * maxRadius * 2f);
 
@@ -259,12 +268,6 @@ public class RandomWalker : MonoBehaviour
 
     private void InitializeReturnGoal()
     {
-        GameObject en = Instantiate(enclosure);
-        en.transform.position = transform.position - Vector3.up * 2f;
-
-        GameObject wp = Instantiate(waterPlane);
-        wp.transform.position = transform.position - Vector3.up;
-
         GameObject startGoalObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
         startGoalObject.name = "Return Goal";
         startGoal = startGoalObject.AddComponent<GoalBehavior>();

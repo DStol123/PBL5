@@ -117,6 +117,8 @@ public class MarchingCubeRenderer : MonoBehaviour
 
         mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
 
+        mesh.Clear();
+
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();

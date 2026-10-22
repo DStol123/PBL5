@@ -51,14 +51,14 @@ public class CameraMovement : MonoBehaviour
         
         BreakOnNoInput();
 
-        fovChanger.ChangeFOV(180f / (movementFovMultiplier * Mathf.Abs(rb.linearVelocity.magnitude) + 1f));
+        if(fovChanger != null) fovChanger.ChangeFOV(180f / (movementFovMultiplier * Mathf.Abs(rb.linearVelocity.magnitude) + 1f));
 
         //Debug.Log("Current Speed: " + rb.linearVelocity.magnitude);
     }
 
     public void Initialize()
     {
-        transform.parent.transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight + 1f, gameManager.caveDepth / 2f);
+        transform.parent.transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight / 2f, gameManager.caveDepth / 2f);
 
         initialized = true;
     }

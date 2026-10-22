@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6218808558043059149}
   - component: {fileID: 7103008344025576280}
   - component: {fileID: 8064847418901091078}
+  - component: {fileID: 1560095025548852640}
   m_Layer: 0
   m_Name: Cave Walker
   m_TagString: Untagged
@@ -49,6 +50,7 @@ MonoBehaviour:
   seed: ThisIsASeed
   gameManager: {fileID: 0}
   maxSectionLength: 15
+  minSectionLength: 0
   currentRadius: 1.5
   minRadius: 1.8
   maxRadius: 8
@@ -57,6 +59,7 @@ MonoBehaviour:
   goalMaterial: {fileID: 2100000, guid: feea19b5a1fdc09478bf869313613356, type: 2}
   enclosure: {fileID: 5063269697070675106, guid: 23f28615d9e0c584fad7642634232c30, type: 3}
   waterPlane: {fileID: 4354126078663006814, guid: 112f7ed56982be14da6632133b57b130, type: 3}
+  scavengerManager: {fileID: 1560095025548852640}
 --- !u!114 &8064847418901091078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,6 +72,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9604c8f6be3dec45a3c708caed239b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NodePlacer
+--- !u!114 &1560095025548852640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5638235611782288012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13f14652003d5a94e8c226f3c82d9d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScavengerPlacer
+  AllObjects: []
+  SHobjectsToPlace: []
+  ObjectsToHuntFor: 0
 --- !u!1 &6833197049942015350
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,7 +178,10 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   rw: {fileID: 7103008344025576280}
   bubbleEmitter: {fileID: 3697688200292530867, guid: a6a293ef6f93d8b4487af9e24ea1b423, type: 3}
+  allNodes: []
+  pathToBottom: []
   LoadingBar: {fileID: 0}
+  onlyDisplayRoute: 0
 --- !u!33 &5704792654490895243
 MeshFilter:
   m_ObjectHideFlags: 0
