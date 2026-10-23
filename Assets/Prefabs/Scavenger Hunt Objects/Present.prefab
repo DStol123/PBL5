@@ -132,7 +132,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5518868, g: 0.7697901, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 1
   m_SpotAngle: 179
@@ -264,8 +264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906acd96bf4a9a141aa7d01823716ec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScavengerObject
-  active: 0
-  valid: 0
+  active: 1
+  valid: 1
   HuntManager: {fileID: 0}
 --- !u!135 &8896101876681631025
 SphereCollider:
@@ -420,7 +420,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5518868, g: 0.7697901, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 1
   m_SpotAngle: 179
@@ -547,7 +547,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5518868, g: 0.7697901, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 1
   m_SpotAngle: 179
@@ -1103,7 +1103,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5518868, g: 0.7697901, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 1
   m_SpotAngle: 179
@@ -1230,7 +1230,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5518868, g: 0.7697901, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 1
   m_SpotAngle: 179
@@ -1357,7 +1357,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5518868, g: 0.7697901, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 1
   m_SpotAngle: 179

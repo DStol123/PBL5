@@ -56,6 +56,8 @@ public class RandomWalker : MonoBehaviour
 
         if (seed.Equals("")) seed = UnityEngine.Random.Range(float.MinValue, float.MaxValue).ToString();
 
+        scavengerManager.HuntManager = gameManager.HuntManager;
+
         rng = new System.Random(seed.GetHashCode());
 
         transform.position = new Vector3(caveData.Dimensions.x / 2f, caveData.Dimensions.y / 2f, caveData.Dimensions.z / 2f);
@@ -159,8 +161,6 @@ public class RandomWalker : MonoBehaviour
                         caveData.AppendVoxelNodes(new Vector3(x, y, z), nextNode);
                         sw.Stop();
 
-                        Debug.Log($"Appending Voxel Nodes: {sw.ElapsedMilliseconds} ms");
-
                         if (caveData.Points[x, y, z] == 0f)
                         {
                             Node[] intersectedNodePair = { caveData.voxelNodes[new Vector3(x, y, z)][0],
@@ -211,10 +211,17 @@ public class RandomWalker : MonoBehaviour
 
         if (caveData.Filled()) Finish();
 
-        if (scavengerManager.TotalScavengerObjects == 0) return;
-        if (caveData.PercentComplete >= (scavengerManager.Placed + 1) / (scavengerManager.TotalScavengerObjects + 1) || caveData.PercentComplete >= 0.95f)
-            scavengerManager.PlaceObject(transform.position, Quaternion.Euler(Random.Range(0f, 360f), Random.Range(0f, 360f), Random.Range(0f, 360f)));
+        Debug.Log("Placed: " + scavengerManager.Placed);
+        Debug.Log("Total: " + scavengerManager.TotalScavengerObjects);
+        Debug.Log("Placed / Total: " + ((float)scavengerManager.Placed) / ((float)scavengerManager.TotalScavengerObjects) + "\n" +
+                "Percent Filled: " + caveData.PercentComplete);
 
+        if (scavengerManager.TotalScavengerObjects == 0 || scavengerManager.Placed >= scavengerManager.TotalScavengerObjects) return;
+        if (caveData.PercentComplete >= ((float)scavengerManager.Placed + 1) / ((float)scavengerManager.TotalScavengerObjects + 1) || caveData.PercentComplete >= 0.95f)
+        {
+            scavengerManager.PlaceObject(transform.position, 
+                Quaternion.Euler(Random.Range(0f, 360f), Random.Range(0f, 360f), Random.Range(0f, 360f)));
+        }
     }
 
     private bool Captured(Vector3 point)
@@ -401,5 +408,11 @@ public class RandomWalker : MonoBehaviour
     public Vector3 PositiveBounds
     {
         get { return positiveBounds; }
+    }
+
+    public ScavengerPlacer ScavengerManager
+    {
+        get { return scavengerManager; }
+        set {  scavengerManager = value; }
     }
 }

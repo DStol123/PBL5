@@ -115,7 +115,6 @@ public class CaveData : MonoBehaviour
         Debug.Log("Time to load cave: " + width + " x " + height + " x " + depth + ": " + timeToLoad.ToString("0.00") + " seconds");
 
         gameManager.UIManager.DisableMenu(3);
-        gameManager.UIManager.EnableMenu(4);
     }
 
     private void Smooth(int iterations)

@@ -17,7 +17,6 @@ public class UIManager : MonoBehaviour
         ToggleAllMenus(false);
         ToggleCursor(true);
         EnableMenu(2);
-        EnableMenu(4);
     }
     public void TogglePause(bool input)
     {
@@ -26,14 +25,12 @@ public class UIManager : MonoBehaviour
         if (input)
         {
             EnableMenuExclusive(0);
-            EnableMenu(4);
 
             UnityEngine.Cursor.lockState = CursorLockMode.None;
         }
         else
         {
             ToggleAllMenus(false);
-            EnableMenu(4);
 
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         }

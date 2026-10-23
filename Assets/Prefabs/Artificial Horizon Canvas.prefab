@@ -89,6 +89,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArtificialHorizon
   player: {fileID: 0}
+  cam: {fileID: 0}
+  horzCanvas: {fileID: 0}
+  horizonRect: {fileID: 0}
+  pixelsPerDegree: 0
 --- !u!1 &4672915123926240011
 GameObject:
   m_ObjectHideFlags: 0

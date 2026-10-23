@@ -11,8 +11,11 @@ public class ScavengerObject : MonoBehaviour
     {
         if(other.CompareTag("Player") && valid && active)
         {
+            valid = false;
             active = false;
             HuntManager.ObjectsFound++;
+
+            Destroy(gameObject);
         }
     }
 }

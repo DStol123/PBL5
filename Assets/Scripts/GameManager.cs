@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private CameraMovement cameraMovement;
 
+    [SerializeField] private HuntManager huntManager;
+
     private float timeAtLoad;
 
     public float caveFillPercent;
@@ -100,11 +102,9 @@ public class GameManager : MonoBehaviour
         rw.MaxLength = maxTunnelLength;
         rw.minSectionLength = minTunnelLength;
         rw.MaxRadius = maxRadius;
+        rw.ScavengerManager.HuntManager = huntManager;
 
         rw.Initialize();
-
-        uiManager.EnableMenu(3);
-        uiManager.EnableMenu(5);
 
         cameraMovement.CaveData = caveData;
         cameraMovement.Initialize();
@@ -222,5 +222,10 @@ public class GameManager : MonoBehaviour
     public float EmitterDensity
     {
         get { return emitterDensity; }
+    }
+
+    public HuntManager HuntManager
+    {
+        get { return huntManager; }
     }
 }

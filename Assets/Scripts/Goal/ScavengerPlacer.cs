@@ -7,8 +7,8 @@ public class ScavengerPlacer : MonoBehaviour
     [SerializeField] private ScavengerObject[] AllObjects;
     [SerializeField] private List<GameObject> SHobjectsToPlace;
     [SerializeField] private int ObjectsToHuntFor;
-    private ScavengerObject[] active;
-    private int placed;
+    [SerializeField] private ScavengerObject[] active;
+    [SerializeField] private int placed;
 
     private HuntManager huntManager;
 
@@ -17,19 +17,19 @@ public class ScavengerPlacer : MonoBehaviour
     {
         placed = 0;
         active = new ScavengerObject[SHobjectsToPlace.Count];
-
-        huntManager.ObjectsToFind = ObjectsToHuntFor;
     }
 
     // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        huntManager.ObjectsToFind = ObjectsToHuntFor;
     }
 
     public void PlaceObject(Vector3 position, Quaternion rotation)
     {
         if (SHobjectsToPlace.Count == 0) return;
+
+        placed++;
 
         GameObject soObject = Instantiate(SHobjectsToPlace[0], position, rotation);
 
@@ -38,8 +38,6 @@ public class ScavengerPlacer : MonoBehaviour
         active[placed] = so;
 
         so.HuntManager = huntManager;
-
-        placed++;
 
         SHobjectsToPlace.RemoveAt(0);
     }
@@ -52,5 +50,11 @@ public class ScavengerPlacer : MonoBehaviour
     public int Placed
     {
         get { return placed; }
+    }
+
+    public HuntManager HuntManager
+    {
+        get { return huntManager; }
+        set { huntManager = value; }
     }
 }
