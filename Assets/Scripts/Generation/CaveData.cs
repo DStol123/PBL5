@@ -20,6 +20,8 @@ public class CaveData : MonoBehaviour
 
     [SerializeField] private int maxNodeNeighbors;
 
+    private bool generated;
+
     public Dictionary<Vector3, List<Node>> voxelNodes;
     public List<Node> allNodes = new();
     public List<Node> activeNodes;
@@ -43,6 +45,7 @@ public class CaveData : MonoBehaviour
     private void Awake()
     {
         activeNodes = new List<Node>();
+        generated = false;
     }
 
     public void InitializeVertices()
@@ -129,6 +132,8 @@ public class CaveData : MonoBehaviour
         Debug.Log("Time to load cave: " + width + " x " + height + " x " + depth + ": " + timeToLoad.ToString("0.00") + " seconds");
 
         gameManager.UIManager.DisableMenu(3);
+
+        generated = true;
     }
 
     private void Smooth(int iterations)
@@ -394,5 +399,10 @@ public class CaveData : MonoBehaviour
     {
         get { return maxNodeNeighbors; }
         set { maxNodeNeighbors = value; }
+    }
+
+    public bool Generated
+    {
+        get { return generated; }
     }
 }

@@ -14,6 +14,8 @@ public class Node : MonoBehaviour
     public bool active;
     public float totalCost;
 
+    public int timesVisited;
+
     public RandomWalker rw;
 
     public CaveData caveData;
@@ -85,7 +87,8 @@ public class Node : MonoBehaviour
 
     public bool InLineOfSightPhysics(Vector3 pos)
     {
-        if (Physics.Raycast(transform.position, (pos - transform.position).normalized, Mathf.Abs((pos - transform.position).magnitude)))
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, (pos - transform.position).normalized,out hit, Mathf.Abs((pos - transform.position).magnitude)) && !hit.collider.gameObject.CompareTag("Player"))
             return false;
         else return true;
     }

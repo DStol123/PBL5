@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private HuntManager huntManager;
 
+    [SerializeField] private PositionTracker positionTracker;
+
     private float timeAtLoad;
 
     public float caveFillPercent;
@@ -99,6 +101,8 @@ public class GameManager : MonoBehaviour
         caveData.minNodeDistance = minNodeDistance;
 
         caveData.InitializeVertices();
+
+        positionTracker.CaveData = caveData;
 
         RandomWalker rw = go.GetComponentInChildren<RandomWalker>();
 

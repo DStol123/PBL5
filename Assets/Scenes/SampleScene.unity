@@ -1045,6 +1045,7 @@ MonoBehaviour:
   loadingBar: {fileID: 806405543}
   cameraMovement: {fileID: 407071090}
   huntManager: {fileID: 175739692}
+  positionTracker: {fileID: 407071093}
   caveFillPercent: 0.75
   caveWidth: 100
   caveHeight: 100
@@ -2217,6 +2218,7 @@ GameObject:
   - component: {fileID: 407071088}
   - component: {fileID: 407071092}
   - component: {fileID: 407071091}
+  - component: {fileID: 407071093}
   - component: {fileID: 407071090}
   - component: {fileID: 407071089}
   m_Layer: 0
@@ -2327,6 +2329,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 407071087}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &407071093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407071087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9745d5dd3f55c3d41ba5a7601d877772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PositionTracker
+  CaveData: {fileID: 0}
+  currentNode: {fileID: 0}
 --- !u!1 &443321923
 GameObject:
   m_ObjectHideFlags: 0
@@ -11493,7 +11509,7 @@ GameObject:
   - component: {fileID: 561236923159524150}
   m_Layer: 0
   m_Name: ViveCameraRig
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
