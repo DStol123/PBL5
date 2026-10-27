@@ -7,6 +7,14 @@ public class ScavengerObject : MonoBehaviour
 
     public HuntManager HuntManager;
 
+    private void Start()
+    {
+        if(HuntManager == null)
+        {
+            HuntManager = FindFirstObjectByType<HuntManager>();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player") && valid && active)

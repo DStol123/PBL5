@@ -1045,7 +1045,7 @@ MonoBehaviour:
   loadingBar: {fileID: 806405543}
   cameraMovement: {fileID: 407071090}
   huntManager: {fileID: 175739692}
-  caveFillPercent: 0.86
+  caveFillPercent: 0.8
   caveWidth: 100
   caveHeight: 100
   caveDepth: 100
