@@ -22,6 +22,8 @@ public class CaveData : MonoBehaviour
 
     public Dictionary<Vector3, List<Node>> voxelNodes;
     public List<Node> allNodes = new();
+    public List<Node> activeNodes;
+    public float minNodeDistance;
 
     public List<Node> pathToBottom = new List<Node>();
 
@@ -38,8 +40,9 @@ public class CaveData : MonoBehaviour
 
     public bool onlyDisplayRoute;
 
-    private void Update()
+    private void Awake()
     {
+        activeNodes = new List<Node>();
     }
 
     public void InitializeVertices()
@@ -106,13 +109,18 @@ public class CaveData : MonoBehaviour
     public void GenerateMesh()
     {
         Smooth(smoothingIterations);
+
+        mcRenderer.MarchCubes();
+
         ConnectNodes(28f);
 
         RemoveCrowdedNodes();
 
         ConnectNodes(31f);
 
-        mcRenderer.MarchCubes();
+        RemoveCloseNodes();
+
+        SetActiveNodesList();
 
         PlaceBubbleEmitters();
 
@@ -162,6 +170,8 @@ public class CaveData : MonoBehaviour
 
     public void RemoveCrowdedNodes()
     {
+        List<Node> nodesTemp = new List<Node>();
+
         foreach(Node node in allNodes)
         {
             if(node.connections.Count > maxNodeNeighbors)
@@ -170,8 +180,45 @@ public class CaveData : MonoBehaviour
 
                 continue;
             }
+
+            nodesTemp.Add(node);
         }
 
+        activeNodes = nodesTemp;
+    }
+
+    public void RemoveCloseNodes()
+    {
+        foreach(Node node in allNodes)
+        {
+            foreach(Node connection in node.connections.Keys)
+            {
+                if (connection == node) continue;
+
+                float distance = Mathf.Abs((node.transform.position - connection.transform.position).magnitude);
+                Debug.Log("Distance: " + distance);
+                if (node.active && connection.active && distance < minNodeDistance)
+                {
+                    Debug.Log("Deactivating node");
+                    connection.active = false;
+                }
+            }
+        }
+    }
+
+    public void SetActiveNodesList()
+    {
+        List<Node> nodesTemp = new List<Node>();
+
+        foreach(Node node in allNodes)
+        {
+            if(node.active)
+            {
+                nodesTemp.Add(node);
+            }
+        }
+
+        activeNodes = nodesTemp;
     }
 
     public float TotalPathCost()
@@ -272,7 +319,7 @@ public class CaveData : MonoBehaviour
         {
             for(int j = 0; j < allNodes.Count; j++)
             {
-                if (allNodes[i].InLineOfSight(allNodes[j]) && 
+                if (allNodes[i].InLineOfSightPhysics(allNodes[j].transform.position) && 
                     Mathf.Abs((allNodes[i].transform.position - allNodes[j].transform.position).magnitude) <= maxDistance) 
                 allNodes[i].AddNode(allNodes[j]);
             }

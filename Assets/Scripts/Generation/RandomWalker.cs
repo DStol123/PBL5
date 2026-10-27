@@ -115,7 +115,7 @@ public class RandomWalker : MonoBehaviour
         {
             nextNode = potentialReplacement;
 
-            destination = nextNode.transform.position;
+            //destination = nextNode.transform.position;
         }
 
         else

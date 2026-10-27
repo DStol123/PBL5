@@ -83,6 +83,13 @@ public class Node : MonoBehaviour
         return true;
     }
 
+    public bool InLineOfSightPhysics(Vector3 pos)
+    {
+        if (Physics.Raycast(transform.position, (pos - transform.position).normalized, Mathf.Abs((pos - transform.position).magnitude)))
+            return false;
+        else return true;
+    }
+
     public List<Node> FindDirectPath()
     {
         List<Node> path = new List<Node>();

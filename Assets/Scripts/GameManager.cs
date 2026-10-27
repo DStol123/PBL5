@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public bool bubbleEmitters;
     public float minTunnelLength;
     public float averageDistanceFromPath;
+    public float minNodeDistance;
 
     public float pathLength;
     public int pathNodes;
@@ -95,6 +96,7 @@ public class GameManager : MonoBehaviour
         caveData.LoadingBar = loadingBar;
         caveData.GameManager = this;
         caveData.MaxNodeNeighbors = maxNodeNeighbors;
+        caveData.minNodeDistance = minNodeDistance;
 
         caveData.InitializeVertices();
 
