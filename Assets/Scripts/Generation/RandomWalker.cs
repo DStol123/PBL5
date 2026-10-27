@@ -156,11 +156,9 @@ public class RandomWalker : MonoBehaviour
 
                     if (Captured(new Vector3(x, y, z)))
                     {
-                        sw.Restart();
                         caveData.AppendVoxelNodes(new Vector3(x, y, z), previousNode);
                         caveData.AppendVoxelNodes(new Vector3(x, y, z), nextNode);
-                        sw.Stop();
-
+                        /*
                         if (caveData.Points[x, y, z] == 0f)
                         {
                             Node[] intersectedNodePair = { caveData.voxelNodes[new Vector3(x, y, z)][0],
@@ -191,7 +189,7 @@ public class RandomWalker : MonoBehaviour
 
                             continue;
                         }
-
+                        */
                         caveData.Points[x, y, z] = 0f;
                         caveData.RemainingVertices--;
 

@@ -40,11 +40,15 @@ public class UIManager : MonoBehaviour
 
     public void EnableMenu(int index)
     {
+        if (index >= menus.Length || menus[index] == null) return;
+
         menus[index].SetActive(true);
     }
 
     public void EnableMenuExclusive(int index)
     {
+        if (index >= menus.Length || menus[index] == null) return;
+
         for (int i = 0; i < menus.Length; i++)
         {
             if (i == index)
@@ -60,6 +64,8 @@ public class UIManager : MonoBehaviour
 
     public void DisableMenu(int index)
     {
+        if (index >= menus.Length || menus[index] == null) return;
+
         menus[index].SetActive(false);
     }
 
@@ -67,6 +73,8 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < menus.Length; i++)
         {
+            if (menus[i] == null) continue;
+
             menus[i].SetActive(input);
         }
     }

@@ -1045,7 +1045,7 @@ MonoBehaviour:
   loadingBar: {fileID: 806405543}
   cameraMovement: {fileID: 407071090}
   huntManager: {fileID: 175739692}
-  caveFillPercent: 0.8
+  caveFillPercent: 0.75
   caveWidth: 100
   caveHeight: 100
   caveDepth: 100
@@ -1054,10 +1054,11 @@ MonoBehaviour:
   maxRadius: 8
   minRadius: 0
   bubbleEmitters: 1
-  minTunnelLength: 4
+  minTunnelLength: 5
   averageDistanceFromPath: 0
   pathLength: 0
   pathNodes: 0
+  maxNodeNeighbors: 3
   participant: 7
   caveData: {fileID: 0}
 --- !u!4 &175739690

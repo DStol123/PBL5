@@ -18,6 +18,8 @@ public class CaveData : MonoBehaviour
 
     [SerializeField] private GameObject bubbleEmitter;
 
+    [SerializeField] private int maxNodeNeighbors;
+
     public Dictionary<Vector3, List<Node>> voxelNodes;
     public List<Node> allNodes = new();
 
@@ -104,7 +106,11 @@ public class CaveData : MonoBehaviour
     public void GenerateMesh()
     {
         Smooth(smoothingIterations);
-        ConnectNodes(30f);
+        ConnectNodes(28f);
+
+        RemoveCrowdedNodes();
+
+        ConnectNodes(31f);
 
         mcRenderer.MarchCubes();
 
@@ -152,6 +158,20 @@ public class CaveData : MonoBehaviour
 
         gameManager.pathLength = length;
         gameManager.pathNodes = pathToBottom.Count;
+    }
+
+    public void RemoveCrowdedNodes()
+    {
+        foreach(Node node in allNodes)
+        {
+            if(node.connections.Count > maxNodeNeighbors)
+            {
+                node.active = false;
+
+                continue;
+            }
+        }
+
     }
 
     public float TotalPathCost()
@@ -321,5 +341,11 @@ public class CaveData : MonoBehaviour
         if (voxelNodes[voxel].Contains(node)) return;
 
         voxelNodes[voxel].Add(node);
+    }
+
+    public int MaxNodeNeighbors
+    {
+        get { return maxNodeNeighbors; }
+        set { maxNodeNeighbors = value; }
     }
 }

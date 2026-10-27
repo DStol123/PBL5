@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
     public float pathLength;
     public int pathNodes;
 
+    [SerializeField] private int maxNodeNeighbors;
+
     public string participant;
 
     public CaveData caveData;
@@ -92,6 +94,7 @@ public class GameManager : MonoBehaviour
         caveData.Dimensions = new Vector3(caveWidth, caveHeight, caveDepth);
         caveData.LoadingBar = loadingBar;
         caveData.GameManager = this;
+        caveData.MaxNodeNeighbors = maxNodeNeighbors;
 
         caveData.InitializeVertices();
 

@@ -11,6 +11,7 @@ public class Node : MonoBehaviour
     public bool bottomNode;
     public bool onPath;
     public bool flaggedRedundant;
+    public bool active;
     public float totalCost;
 
     public RandomWalker rw;
@@ -22,11 +23,14 @@ public class Node : MonoBehaviour
     private void Awake()
     {
         connections = new Dictionary<Node, float> { };
+        active = true;
     }
 
     public void AddNode(Node node)
     {
         if (connections.ContainsKey(node)) return;
+
+        node.active = true;
 
         connections.Add(node, Mathf.Abs((node.transform.position - transform.position).magnitude));
     }
@@ -209,20 +213,21 @@ public class Node : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (caveData.onlyDisplayRoute && !onPath) return;
+        if ((caveData.onlyDisplayRoute && !onPath) || !active) return;
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(transform.position, 0.6f);
 
 
         Gizmos.color = Color.turquoise;
-
+        
         foreach(Node node in connections.Keys)
         {
-            if (caveData.onlyDisplayRoute && !node.onPath) continue;
+            if (!node.active || (caveData.onlyDisplayRoute && !node.onPath)) continue;
 
             Gizmos.DrawLine(transform.position, node.transform.position);
         }
+        
     }
 }
 

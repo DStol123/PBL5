@@ -10,6 +10,8 @@ public class NodePlacer : MonoBehaviour
 
         Node newNode = nodeObject.AddComponent<Node>();
 
+        newNode.active = true;
+
         if (neighbors == null || neighbors.Length == 0) return newNode;
 
         for (int i = 0; i < neighbors.Length; i++)
