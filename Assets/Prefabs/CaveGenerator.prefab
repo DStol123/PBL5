@@ -95,14 +95,15 @@ MonoBehaviour:
   - {fileID: 8735817572525069975, guid: 681445354095a314090eabb7e0fc5225, type: 3}
   SHobjectsToPlace:
   - {fileID: 1920607972459464724, guid: 43af3ce2e1d257746901f03d3f1d3814, type: 3}
-  - {fileID: 1920607972459464724, guid: d323f7222b13c5a45a1d3aa47aa842df, type: 3}
   - {fileID: 1920607972459464724, guid: 9e8ce8979116f524d9cc927fe51c12ea, type: 3}
   - {fileID: 1920607972459464724, guid: e333d0317b08fb74285861fdf8b6159c, type: 3}
   - {fileID: 1920607972459464724, guid: 42d1fbf9412a39841b3313176ed096c4, type: 3}
-  - {fileID: 1920607972459464724, guid: 91d6d9749ddb7e04181e051bbdcf0128, type: 3}
   - {fileID: 1920607972459464724, guid: c4fc29c0ff9de1c4ab68e946432f4b64, type: 3}
+  - {fileID: 1920607972459464724, guid: 91d6d9749ddb7e04181e051bbdcf0128, type: 3}
   - {fileID: 1920607972459464724, guid: 681445354095a314090eabb7e0fc5225, type: 3}
-  ObjectsToHuntFor: 9
+  ObjectsToHuntFor: 7
+  active: []
+  placed: 0
 --- !u!1 &6833197049942015350
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +195,10 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   rw: {fileID: 7103008344025576280}
   bubbleEmitter: {fileID: 3697688200292530867, guid: a6a293ef6f93d8b4487af9e24ea1b423, type: 3}
+  maxNodeNeighbors: 0
   allNodes: []
+  activeNodes: []
+  minNodeDistance: 0
   pathToBottom: []
   LoadingBar: {fileID: 0}
   onlyDisplayRoute: 0
