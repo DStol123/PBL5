@@ -134,6 +134,8 @@ public class CaveData : MonoBehaviour
         gameManager.UIManager.DisableMenu(3);
 
         generated = true;
+
+        gameManager.CaveGenerationFinished = true;
     }
 
     private void Smooth(int iterations)

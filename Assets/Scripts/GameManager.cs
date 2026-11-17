@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private PositionTracker positionTracker;
 
+    [SerializeField] private bool caveGenerationFinished;
+
     private float timeAtLoad;
 
     public float caveFillPercent;
@@ -40,11 +42,11 @@ public class GameManager : MonoBehaviour
     public float minRadius;
     public bool bubbleEmitters;
     public float minTunnelLength;
-    public float averageDistanceFromPath;
+    //public float averageDistanceFromPath;
     public float minNodeDistance;
 
-    public float pathLength;
-    public int pathNodes;
+    //public float pathLength;
+    //public int pathNodes;
 
     [SerializeField] private int maxNodeNeighbors;
 
@@ -236,5 +238,11 @@ public class GameManager : MonoBehaviour
     public HuntManager HuntManager
     {
         get { return huntManager; }
+    }
+
+    public bool CaveGenerationFinished
+    {
+        get { return caveGenerationFinished; }
+        set {  caveGenerationFinished = value; }
     }
 }

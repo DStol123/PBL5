@@ -43,7 +43,7 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!initialized) return;
+        if (!initialized || gameManager.CaveGenerationFinished) return;
 
         if (Input.GetKeyDown(KeyCode.C)) Calibrate();
 
