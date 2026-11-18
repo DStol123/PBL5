@@ -160,7 +160,7 @@ public class CaveData : MonoBehaviour
         points = newPoints;
     }
 
-    public void FindPathToBottom()
+   /* public void FindPathToBottom()
     {
         float length = 0;
 
@@ -173,7 +173,7 @@ public class CaveData : MonoBehaviour
 
         gameManager.pathLength = length;
         gameManager.pathNodes = pathToBottom.Count;
-    }
+    }*/
 
     public void RemoveCrowdedNodes()
     {
@@ -228,7 +228,7 @@ public class CaveData : MonoBehaviour
         activeNodes = nodesTemp;
     }
 
-    public float TotalPathCost()
+    /*public float TotalPathCost()
     {
         float total = 0f;
 
@@ -240,7 +240,7 @@ public class CaveData : MonoBehaviour
         gameManager.pathLength = total;
 
         return total;
-    }
+    }*/
 
     private float[] Neighbors(int xpos, int ypos, int zpos)
     {

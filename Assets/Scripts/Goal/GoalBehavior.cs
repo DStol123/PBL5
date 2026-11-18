@@ -50,7 +50,7 @@ public class GoalBehavior : MonoBehaviour
         returnGoal.Active = true;
     }
 
-    private void OnTriggerExit(Collider other)
+    /*private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Player") || returnGoal != null) return;
 
@@ -59,7 +59,7 @@ public class GoalBehavior : MonoBehaviour
         Active = true;
 
         gameManager.CameraMovement.StartTimeSeries();
-    }
+    }*/
 
     public bool Active
     {

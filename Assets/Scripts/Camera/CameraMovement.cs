@@ -63,12 +63,12 @@ public class CameraMovement : MonoBehaviour
         initialized = true;
     }
 
-    public void StartTimeSeries()
+   /* public void StartTimeSeries()
     {
         InvokeRepeating(nameof(SetAverageDistanceToPath), 1f, 1f);
-    }
+    }*/
 
-    public void SetAverageDistanceToPath()
+    /*public void SetAverageDistanceToPath()
     {
         float currentDistance = DistanceFromPath();
 
@@ -78,7 +78,7 @@ public class CameraMovement : MonoBehaviour
         gameManager.averageDistanceFromPath = distanceTotal / distanceCounter;
 
         gameManager.Recorder.UpdateHistogram(distanceCounter, currentDistance, gameManager.participant, DistanceAlongPath(), Mathf.Clamp(100f - transform.position.y, 0f, 100f));
-    }
+    }*/
 
     public float DistanceAlongPath()
     {
