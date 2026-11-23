@@ -110,6 +110,8 @@ public class UIManager : MonoBehaviour
         cageUserTracker.Disabled = true;
         iconUserTracker.Disabled = false;
         iconUserTracker.Inverted = false;
+
+        cageUserTracker.transform.localRotation = Quaternion.identity;
     }
 
     public void ToggleEgocentricMinimap(bool input)
@@ -131,6 +133,8 @@ public class UIManager : MonoBehaviour
         cageUserTracker.Disabled = false;
         cageUserTracker.Inverted = true;
         iconUserTracker.Disabled = true;
+
+        iconUserTracker.transform.localRotation = Quaternion.identity;
     }
 
     public void ToggleCage(bool input)

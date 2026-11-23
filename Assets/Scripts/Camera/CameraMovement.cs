@@ -45,7 +45,7 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!initialized || gameManager.CaveGenerationFinished) return;
+        if (!initialized || !gameManager.CaveGenerationFinished) return;
 
         if (Input.GetKeyDown(KeyCode.C)) Calibrate();
 
@@ -149,7 +149,7 @@ public class CameraMovement : MonoBehaviour
 
         rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maximumSpeed);
 
-        //Debug.Log("Adding force: " + acceleration + "\nNew Speed: " + rb.linearVelocity);
+        Debug.Log("Adding force: " + acceleration + "\nNew Speed: " + rb.linearVelocity);
     }
 
     private void BreakOnNoInput()
