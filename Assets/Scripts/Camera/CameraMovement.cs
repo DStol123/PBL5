@@ -8,6 +8,8 @@ public class CameraMovement : MonoBehaviour
      * Control and input is collected in a different script.
      */
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private MonitorInput monitorInput;
+    [SerializeField] private GamepadInput gamepadInput;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Vector3 acceleration;
     [SerializeField] private float maximumAcceleration;
@@ -59,6 +61,8 @@ public class CameraMovement : MonoBehaviour
     public void Initialize()
     {
         transform.parent.transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight / 2f, gameManager.caveDepth / 2f);
+
+        monitorInput.Initialize();
 
         initialized = true;
     }

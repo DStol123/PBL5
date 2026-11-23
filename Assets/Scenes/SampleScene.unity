@@ -988,7 +988,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 175739688}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ToggleEgocentricMinimap
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &175739687
 GameObject:
@@ -1033,8 +1045,9 @@ MonoBehaviour:
   - {fileID: 430985321}
   - {fileID: 2134522613}
   caveFillText: {fileID: 2090623456}
-  caveFillSlider: {fileID: 0}
   goalText: {fileID: 1866688001}
+  cageUserTracker: {fileID: 415966758}
+  iconUserTracker: {fileID: 430985323}
 --- !u!114 &175739689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2242,6 +2255,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraMovement
   gameManager: {fileID: 175739689}
+  monitorInput: {fileID: 195975497}
+  gamepadInput: {fileID: 195975500}
   rb: {fileID: 407071089}
   acceleration: {x: 0, y: 0, z: 0}
   maximumAcceleration: 100
@@ -4919,7 +4934,7 @@ Canvas:
   m_GameObject: {fileID: 970064117}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 561236923161067460}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -5044,7 +5059,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 175739688}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ToggleExocentricMinimap
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &1001491782
 GameObject:
@@ -6520,7 +6547,7 @@ GameObject:
   - component: {fileID: 1325842796}
   - component: {fileID: 1325842797}
   m_Layer: 5
-  m_Name: ' Cage Toggle'
+  m_Name: Cage Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6593,7 +6620,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 175739688}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ToggleCage
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &1365852165
 GameObject:
@@ -7118,7 +7157,7 @@ Canvas:
   m_GameObject: {fileID: 1437807168}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 561236923161067460}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -8714,7 +8753,7 @@ Canvas:
   m_GameObject: {fileID: 1749665900}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 561236923161067460}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -9304,7 +9343,7 @@ Canvas:
   m_GameObject: {fileID: 1894172214}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 561236923161067460}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

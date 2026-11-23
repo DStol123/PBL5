@@ -101,7 +101,6 @@ public class GameManager : MonoBehaviour
         rw.Initialize();
 
         cameraMovement.CaveData = caveData;
-        cameraMovement.Initialize();
     }
     public bool LookInverted
     {

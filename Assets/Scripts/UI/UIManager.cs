@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
@@ -9,8 +10,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject[] navigationGuides;
 
     [SerializeField] private TMP_InputField caveFillText;
-    [SerializeField] private Slider caveFillSlider;
+    [SerializeField] private UnityEngine.UIElements.Slider caveFillSlider;
     [SerializeField] private TMP_Text goalText;
+
+    private bool exocentric;
+    [SerializeField] UnityEngine.UIElements.Toggle exocentricToggle;
+
+    private bool egocentric;
+    [SerializeField] UnityEngine.UIElements.Toggle egocentricToggle;
+
+    [SerializeField] UserRotationTracker cageUserTracker;
+    [SerializeField] UserRotationTracker iconUserTracker;
 
     private void Start()
     {
@@ -20,6 +30,8 @@ public class UIManager : MonoBehaviour
     }
     public void TogglePause(bool input)
     {
+        if (gameManager.caveData == null) return;
+
         gameManager.Paused = input;
 
         if (input)
@@ -81,17 +93,49 @@ public class UIManager : MonoBehaviour
 
     public void ToggleExocentricMinimap(bool input)
     {
+        if(input || !egocentric)
+        {
+            navigationGuides[0].SetActive(input);
+            navigationGuides[1].SetActive(input);
+        }
 
+        if(!input)
+        {
+            exocentric = false;
+            return;
+        }
+        exocentric = true;
+        egocentric = false;
+
+        cageUserTracker.Disabled = true;
+        iconUserTracker.Disabled = false;
+        iconUserTracker.Inverted = false;
     }
 
     public void ToggleEgocentricMinimap(bool input)
     {
+        if (input || !exocentric)
+        {
+            navigationGuides[0].SetActive(input);
+            navigationGuides[1].SetActive(input);
+        }
 
+        if (!input)
+        {
+            egocentric = false;
+            return;
+        }
+        egocentric = true;
+        exocentric = false;
+
+        cageUserTracker.Disabled = false;
+        cageUserTracker.Inverted = true;
+        iconUserTracker.Disabled = true;
     }
 
     public void ToggleCage(bool input)
     {
-
+        navigationGuides[2].SetActive(input);
     }
 
     public void ChangeCaveFillText(float input)
@@ -109,14 +153,14 @@ public class UIManager : MonoBehaviour
     {
         if(input)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            UnityEngine.Cursor.visible = true;
         }
 
         else
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            UnityEngine.Cursor.visible = false;
         }
     }
 
@@ -126,7 +170,7 @@ public class UIManager : MonoBehaviour
         set { caveFillText = value; }
     }
 
-    public Slider CaveFillSlider
+    public UnityEngine.UIElements.Slider CaveFillSlider
     {
         get { return caveFillSlider; }
         set { caveFillSlider = value; }

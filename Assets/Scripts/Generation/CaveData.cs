@@ -129,6 +129,8 @@ public class CaveData : MonoBehaviour
 
         float timeToLoad = Time.time - startTime;
 
+        gameManager.CameraMovement.Initialize();
+
         Debug.Log("Time to load cave: " + width + " x " + height + " x " + depth + ": " + timeToLoad.ToString("0.00") + " seconds");
 
         gameManager.UIManager.DisableMenu(3);

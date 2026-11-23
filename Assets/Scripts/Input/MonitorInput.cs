@@ -24,7 +24,7 @@ public class MonitorInput : MonoBehaviour
     }
     private void Update()
     {
-        Initialize();
+        //Initialize();
 
         if (!inUse || !initialized) return;
 
@@ -44,13 +44,11 @@ public class MonitorInput : MonoBehaviour
         }
     }
 
-    private void Initialize()
+    public void Initialize()
     {
-        if (initialized || !cameraMovement.initialized) return;
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
+        inUse = true;
         initialized = true;
     }
 
@@ -71,7 +69,7 @@ public class MonitorInput : MonoBehaviour
             Input.GetAxis("Vertical")
             );
 
-        //Debug.Log("Translation Input: " + translationInput);
+        Debug.Log("Translation Input: " + translationInput);
 
         if (!mouseEnabled) return;
 
