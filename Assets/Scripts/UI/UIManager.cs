@@ -79,6 +79,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ToggleExocentricMinimap(bool input)
+    {
+
+    }
+
+    public void ToggleEgocentricMinimap(bool input)
+    {
+
+    }
+
+    public void ToggleCage(bool input)
+    {
+
+    }
+
     public void ChangeCaveFillText(float input)
     {
         caveFillText.text = input.ToString();
