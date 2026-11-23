@@ -20,10 +20,6 @@ public class RandomWalker : MonoBehaviour
     [SerializeField] private Vector3 negativeBounds;
     [SerializeField] private Vector3 positiveBounds;
 
-    private GoalBehavior startGoal;
-    private GoalBehavior endGoal;
-    [SerializeField] private Material goalMaterial;
-
     [SerializeField] private GameObject enclosure;
     [SerializeField] private GameObject waterPlane;
 
@@ -270,58 +266,7 @@ public class RandomWalker : MonoBehaviour
             Mathf.Clamp(input.z, nBounds.z, pBounds.z)
             );
     }
-
-    private void InitializeReturnGoal()
-    {
-        GameObject startGoalObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        startGoalObject.name = "Return Goal";
-        startGoal = startGoalObject.AddComponent<GoalBehavior>();
-
-        startGoal.GameManager = gameManager;
-
-        startGoalObject.transform.position = transform.position + Vector3.up * 3f;
-        startGoalObject.transform.localScale = new Vector3(
-            50f,
-            15f,
-            50f
-            );
-
-        BoxCollider bc = startGoalObject.GetComponent<BoxCollider>();
-        bc.isTrigger = true;
-
-        MeshRenderer meshRenderer = startGoalObject.GetComponent<MeshRenderer>();
-        Destroy(meshRenderer);
-
-        startGoal.Active = false;
-        startGoal.Reached = false;
-    }
-
-    private void InitializeEndGoal()
-    {
-        if (endGoal != null) return;
-
-        GameObject endGoalObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        endGoalObject.name = "End Goal";
-        endGoalObject.transform.position = caveData.LowestPoint();
-        endGoal = endGoalObject.AddComponent<GoalBehavior>();
-
-        endGoal.GameManager = gameManager;
-
-        MeshRenderer meshRenderer = endGoalObject.GetComponent<MeshRenderer>();
-        meshRenderer.material = goalMaterial;
-
-        endGoal.SphereCollider = endGoalObject.GetComponent<SphereCollider>();
-
-        endGoalObject.transform.localScale = Vector3.one * 2f;
-
-        endGoal.Active = false;
-        endGoal.Reached = false;
-
-        endGoal.ReturnGoal = startGoal;
-
-        startGoal.EndGoal = endGoal;
-    }
-
+    
     public bool InLineOfSight(Vector3 pos, Node node)
     {
         Vector3 dir = (node.transform.position - pos).normalized;

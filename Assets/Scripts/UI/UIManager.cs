@@ -6,7 +6,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject[] menus; //The first element is the pause menu
-    [SerializeField] private GameObject artificialHorizon;
+    [SerializeField] private GameObject[] navigationGuides;
 
     [SerializeField] private TMP_InputField caveFillText;
     [SerializeField] private Slider caveFillSlider;
@@ -78,11 +78,6 @@ public class UIManager : MonoBehaviour
             menus[i].SetActive(input);
         }
     }
-     
-    public void ToggleArtificialHorizon()
-    {
-        artificialHorizon.SetActive(!artificialHorizon.activeSelf);
-    }
 
     public void ChangeCaveFillText(float input)
     {
@@ -126,10 +121,5 @@ public class UIManager : MonoBehaviour
     {
         get { return goalText; }
         set { goalText = value; }
-    }
-
-    public GameObject ArtificialHorizon
-    {
-        get { return  artificialHorizon; }
     }
 }

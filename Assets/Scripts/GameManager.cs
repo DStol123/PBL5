@@ -73,23 +73,6 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void NauseaCall()
-    {
-        if(timeToBottom == 0f)
-        {
-            timeToBottom = 9999f;
-            timeToReturn = 9999f;
-        }
-        else if(timeToReturn == 0f)
-        {
-            timeToReturn = 9999f;
-        }
-
-        recorder.WriteTrialLog(participant, vrExperience, timeToBottom, timeToReturn, true, Time.time - timeAtLoad, bubbleEmitters, uiManager.ArtificialHorizon.activeInHierarchy, false);
-
-        QuitGame();
-    }
-
     [ContextMenu("Generate Cave")]
     public void GenerateCave()
     {
@@ -141,11 +124,6 @@ public class GameManager : MonoBehaviour
     { 
         get { return cameraMovement; }
         set {  cameraMovement = value; }
-    }
-
-    public void WriteResults()
-    {
-        recorder.WriteTrialLog(participant, vrExperience, timeToBottom, timeToReturn, false, 0f, bubbleEmitters, uiManager.ArtificialHorizon.activeInHierarchy, false); ;
     }
 
     public Recording Recorder
