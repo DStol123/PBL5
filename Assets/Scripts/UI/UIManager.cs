@@ -185,4 +185,20 @@ public class UIManager : MonoBehaviour
         get { return goalText; }
         set { goalText = value; }
     }
+
+    public bool Exocentric
+    {
+        get { return exocentric; }
+    }
+    public bool Egocentric
+    {
+        get { return egocentric; }
+    }
+    public bool CageEnabled
+    {
+        get
+        {
+            return navigationGuides[2].activeInHierarchy;
+        }
+    }
 }

@@ -62,7 +62,7 @@ public class CameraMovement : MonoBehaviour
     {
         transform.parent.transform.position = new Vector3(gameManager.caveWidth / 2f, gameManager.caveHeight / 2f, gameManager.caveDepth / 2f);
 
-        monitorInput.Initialize();
+        //monitorInput.Initialize();
 
         initialized = true;
     }
@@ -234,7 +234,10 @@ public class CameraMovement : MonoBehaviour
     public Vector3 Acceleration
     {
         get {  return acceleration; }
-        set {  acceleration = Vector3.ClampMagnitude(value, maximumAcceleration); }
+        set {
+            Debug.Log("Applying Acceleration: " + value);
+            acceleration = Vector3.ClampMagnitude(value, maximumAcceleration); 
+        }
     }
 
     public Vector3 AngularVelocity
@@ -247,6 +250,7 @@ public class CameraMovement : MonoBehaviour
                 Mathf.Clamp(value.y * rotationStrength.y, -maximumAngularAcceleration.y, maximumAngularAcceleration.y),
                 Mathf.Clamp(value.z * rotationStrength.z, -maximumAngularAcceleration.z, maximumAngularAcceleration.z)
             );
+            Debug.Log("Applying Angular Velocity: " + angularVelocity);
         }
     }
 

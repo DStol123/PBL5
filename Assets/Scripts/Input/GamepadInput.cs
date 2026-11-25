@@ -11,7 +11,7 @@ public class GamepadInput : MonoBehaviour
 
     private void Update()
     {
-        if (!inUse) return;
+        if (!inUse || Gamepad.all.Count == 0) return;
 
         ReadInput();
         ApplyInput();
@@ -32,6 +32,7 @@ public class GamepadInput : MonoBehaviour
             verticalInput,
             leftStickInput.y);
 
+
         Vector2 rightStickInput = Gamepad.current.rightStick.ReadValue();
 
         float leftTriggerInput = Gamepad.current.leftTrigger.ReadValue();
@@ -49,7 +50,14 @@ public class GamepadInput : MonoBehaviour
 
     private void ApplyInput()
     {
+        Debug.Log("Applying Gamepad Input: " + moveInput + " + " + lookInput);
         cameraMovement.Acceleration = moveInput;
         cameraMovement.AngularVelocity = lookInput;
+    }
+
+    public bool InUse
+    {
+        get { return inUse; }
+        set { inUse = value; }
     }
 }
